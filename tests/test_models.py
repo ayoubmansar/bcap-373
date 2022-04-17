@@ -1,5 +1,5 @@
 from django.test import TestCase
-from slobg_app.models import VolunteerRecord
+from bcap373_app.models import VolunteerRecord
 from django.utils import timezone
 
 

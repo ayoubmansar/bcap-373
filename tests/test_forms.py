@@ -1,6 +1,6 @@
 from django.utils import timezone
-from slobg_app.forms import FilterForm
-from slobg_app.forms import *
+from bcap373_app.forms import FilterForm
+from bcap373_app.forms import *
 from django.test import Client
 from django.test import TestCase
 

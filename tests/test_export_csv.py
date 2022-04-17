@@ -1,7 +1,7 @@
 from django.test import TestCase, RequestFactory
-from slobg_app.models import VolunteerRecord
-from slobg_app.views import export_csv
-from slobg_app.forms import FilterForm
+from bcap373_app.models import VolunteerRecord
+from bcap373_app.views import export_csv
+from bcap373_app.forms import FilterForm
 from django.utils import timezone
 from django.http import HttpRequest
 from django.contrib.auth.models import User

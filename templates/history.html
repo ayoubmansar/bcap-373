@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block pageContent %}
-<link rel="stylesheet" type="text/css" href="{% static 'slobg_app/css/history.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/history.css' %}">
 <br/>
 <h1 id="shadow">{{ title }}</h1>
 <h3 id="shadow">{{ running_total }} total hours</h3>
@@ -34,7 +34,7 @@
                 <td>{{ r.supervisor }}</td>
             {% endif %}
             {% if user.is_staff %}
-                <td><a href="/admin/slobg_app/volunteerrecord/{{r.id}}/change/">Manage</a></td>
+                <td><a href="/admin/bcap373_app/volunteerrecord/{{r.id}}/change/">Manage</a></td>
             {% else %}
                 <td><a href="/delete_volunteer_record/?id={{r.id}}">Delete</a></td>
             {% endif %}

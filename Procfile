@@ -1,1 +1,1 @@
-web: gunicorn slobg_proj.wsgi
+web: gunicorn bcap373_proj.wsgi
