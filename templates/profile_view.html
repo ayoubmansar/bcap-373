@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pageContent %}
+<div class="center-page center-text">
+    <div class="form-group"> 
+        <h2 class="main-text m-2">Viewing User Profile ({{ view_user.id }})</h2>           
+        <table class="update-table mr-4 ml-4">
+            <tr>
+                <td class="table-column-1 pr-4"> First Name: </td>
+                <td class="table-column-2"> {{ view_user.first_name }}</td>
+            </tr>
+            <tr>
+                <td class="table-column-1 pr-4"> Last Name: </td>
+                <td class="table-column-2">{{  view_user.last_name  }}</td>
+            </tr>
+            <tr>
+                <td class="table-column-1 pr-4"> Email: </td>
+                <td class="table-column-2"> {{  view_user.email  }} </td>
+            </tr>
+            <tr>
+                <td class="table-column-1 pr-4"> Phone: </td>
+                <td class="table-column-2"> {{  view_user.profile.phone  }} </td>
+            </tr>
+            <tr>
+                <td class="table-column-1 pr-4"> Birth Date: </td>
+                <td class="table-column-2"> {{  view_user.profile.birth_date  }} </td>
+            </tr>
+	    <tr>
+		<td class="table-column-1 pr-4"> User Role: </td>
+		<td class="table-column-2"> {% if view_user.is_staff %} BCAP Staff {% else %} Volunteer {% endif %} </td>
+	    </tr>
+        </table>
+        <div class="button-holder custom-margins">
+            <a href="/admin/auth/user/{{view_user.id}}/change/">
+                <button class="btn btn-primary px-2 m-3">Edit User</button>
+            </a>
+        </div>
+    </div> 
+    <div>
+        <h2 class="main-text m-2"> Hours Information </h2> 
+        <div class="align-labels mr-4 ml-4">
+            <!-- <p class="mb-n1 pb-n1"> Serve 25 hours for a nametag. </p> 
+            <p class="mb-n1 pb-n1"> Serve 50 hours for a household membership. </p> -->
+            <p class="mb-n1 pb-n1"> They have worked <a href="/history/?user={{view_user.id}}"><span style="font-weight: bold">{{ hours }}</span> hours</a> so far (click the link to view hours breakdown).</p>
+            <p class="mb-n1 pb-n1"><a href="/certificate/?id={{view_user.id}}">Generate certificate</a></p>
+        </div>
+    </div>  
+</div>
+{% endblock pageContent%}

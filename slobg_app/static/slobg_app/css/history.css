@@ -1,0 +1,47 @@
+table, th, td{
+    border-collapse: collapse;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: auto;
+    background-color: white;
+}
+
+table {
+    table-layout: fixed;
+}
+
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+th{
+    text-align: left;
+}
+
+h1{
+    text-align: center;
+    font-size: vw;
+    color: white;
+}
+
+.custom{
+    background-color: #637039;
+}
+h3{
+    text-align: center;
+    font-size: vw;
+    color: white;
+}
+
+.pagination {
+    width: 20%;
+    background-color: white;
+    margin: auto;
+}
+
+.step-links {
+    margin: auto;
+}
