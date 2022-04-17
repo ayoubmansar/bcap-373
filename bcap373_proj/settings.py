@@ -122,8 +122,8 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'landing'
 
 # # DJANGO-HEROKU:
-#import django_heroku
-#django_heroku.settings(locals())
+import django_heroku
+django_heroku.settings(locals())
 
 
 # Heroku: Update database configuration from $DATABASE_URL.

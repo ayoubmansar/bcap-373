@@ -1,1 +1,1 @@
-web: gunicorn bcap373_proj.wsgi
+web: gunicorn bcap373_proj.wsgi --log-file -
