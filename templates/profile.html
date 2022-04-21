@@ -26,10 +26,14 @@
                 <td class="table-column-1 pr-4"> Birth Date: </td>
                 <td class="table-column-2"> {% if user.profile.birth_date %} {{  user.profile.birth_date  }} {% endif %} </td>
             </tr>
-	    <tr>
-		<td class="table-column-1 pr-4"> User Role: </td>
-		<td class="table-column-2"> {% if user.is_staff %} BCAP Staff {% else %} Volunteer {% endif %} </td>
-	    </tr>
+            <tr>
+                <td class="table-column-1 pr-4"> User Role: </td>
+                <td class="table-column-2"> {% if user.is_staff %} BCAP Staff {% else %} Volunteer {% endif %} </td>
+            </tr>
+            <tr>
+                <td class="table-column-1 pr-4"> Date of account creation in system: </td>
+                <td class="table-column-2"> {{ user.date_joined }} </td>
+            </tr>
         </table>
         <div class="button-holder custom-margins">
             <a href="/update-profile/">

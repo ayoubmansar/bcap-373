@@ -147,7 +147,7 @@ def export_contacts(request, start_date, end_date):
    response['Content-Disposition'] = 'attachment; filename="volunteer_contacts: {} to {}.csv"'.format(start_date, end_date)
 
    writer = csv.writer(response)
-   writer.writerow(['Emails'])
+   writer.writerow(['Full Name', 'Email','Total Hours'])
 
    if(request.user.is_staff):
       users = User.objects.all().filter(date_joined__range=[start_date, end_date])
@@ -155,7 +155,7 @@ def export_contacts(request, start_date, end_date):
       users = User.objects.filter(owner=request.user, date_joined__range=[start_date, end_date])
 
    for user in users:
-      writer.writerow([user.email])
+      writer.writerow([user, user.email, user.get_hours()])
    
    return response
 
