@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load template_tags %}
 {% block pageContent %}
 <div class="center-page center-text">
     <div class="form-group"> 
@@ -19,7 +20,7 @@
             </tr>
             <tr>
                 <td class="table-column-1 pr-4"> Phone: </td>
-                <td class="table-column-2"> {{  view_user.profile.phone  }} </td>
+                <td class="table-column-2"> {{  view_user.profile.phone|phonenumber  }} </td>
             </tr>
             <tr>
                 <td class="table-column-1 pr-4"> Birth Date: </td>

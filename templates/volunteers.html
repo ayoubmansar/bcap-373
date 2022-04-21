@@ -1,10 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
+{% load template_tags %}
 
 {% block pageContent %}
 <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/history.css' %}">
 <br/>
 <h1 id="shadow">All Users</h1>
+<div>
+    <div class="card">
+        <form method="get">
+            {{myFilter.form}}
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
+<br/>
 <table class="table table-striped table-bordered table-hover" style="width:90%">
     <thead class="custom">
         <tr>
@@ -22,8 +32,8 @@
             <td>{{ r.id }}</td>
             <td><a href="/view_user/?user={{r.id}}">{{ r }}</a></td>
             <td>{{ r.get_hours }}</td>
-            <td>{% if r.profile.email %} {{ r.profile.email }} {% else %} N/A {% endif %}</td>
-            <td>{% if r.profile.phone %} {{ r.profile.phone }} {% else %} N/A {% endif %}</td>
+            <td>{% if r.email %} {{ r.email }} {% else %} N/A {% endif %}</td>
+            <td>{% if r.profile.phone %} {{ r.profile.phone|phonenumber }} {% else %} N/A {% endif %}</td>
             <td> {% if r.is_staff %} BCAP Staff {% else %} Volunteer {% endif %} </td>
         </tr>
         {% endfor %}

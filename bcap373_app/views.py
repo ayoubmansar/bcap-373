@@ -27,6 +27,8 @@ from pytz import timezone
 # Paginator
 from django.core.paginator import Paginator
 from django.views.generic import ListView
+# Filters
+from .filters import VolunteerFilter
 
 # Email Receipt Stuff
 from django.core import mail
@@ -221,12 +223,16 @@ def add_individual_hours(request):
 def volunteers(request):
    if request.user.is_staff:
       records = User.objects.all()
-      records = list(records)
-      records.sort(key=lambda rec: rec.id, reverse=False)
+      #records = list(records)
+      #records.sort(key=lambda rec: rec.id, reverse=False)
+
+      myFilter = VolunteerFilter(request.GET, queryset=records)
+      records = myFilter.qs
+
       paginator = Paginator(records, settings.PAGINATOR_COUNT)
       page_number = request.GET.get('page')
       page_obj = paginator.get_page(page_number)
-      return render(request, "volunteers.html", {"page_obj" : page_obj})
+      return render(request, "volunteers.html", {"page_obj" : page_obj, 'myFilter': myFilter})
    else:
       return render(request, "landing.html")
 

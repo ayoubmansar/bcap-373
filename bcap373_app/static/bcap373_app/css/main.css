@@ -28,6 +28,22 @@ body {
     position: center;
 }
 
+.card {
+    margin-left: 10%;
+    width: 80%;
+}
+
+.card form {
+    margin-left: 1%;
+    width: 98%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.card label {
+    margin-left: 5px;
+}
+
 /* for large screens*/
 @media screen and (min-width: 1000px) {
     .center-page {
