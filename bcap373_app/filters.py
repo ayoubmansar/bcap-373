@@ -2,19 +2,35 @@ import django_filters
 from django_filters import DateFilter, CharFilter, NumberFilter
 from .models import *
 
+class HistoryFilter(django_filters.FilterSet):
+    def name(queryset, name, value):
+        if value is not None:
+            records = VolunteerRecord.objects.all()
+            ids = [record.id for record in records if value.lower() in str(record.owner).lower()]
+            return queryset.filter(id__in=ids)
+        return queryset
+    # Excluded (non-default filters)
+    name = CharFilter(method=name, label='Full name contains')
+    start_date = DateFilter(field_name="date", lookup_expr='gte')
+    end_date = DateFilter(field_name="date", lookup_expr='lte')
+    # hours
+    class Meta:
+        ordering = ['-id']
+        model = VolunteerRecord
+        fields = ['activity','supervisor','hours','owner']
+    
+    def __init__(self, *args, **kwargs):
+       super(HistoryFilter, self).__init__(*args, **kwargs)
+       self.filters['hours'].label="Hours equal to"
+       self.filters['owner'].label=""
 
 
 class VolunteerFilter(django_filters.FilterSet):
     # Custom filtering functions
     def total_hours(queryset, name, value):
         if value is not None:
-            print('Checking ' + name + ' for >= ' + str(value))
             users = User.objects.all()
-            for user in users:
-                print(user.get_hours())
-                print(float(user.get_hours()) >= float(value))
             ids = [user.id for user in users if float(user.get_hours()) >= float(value)]
-            print(ids)
             return queryset.filter(id__in=ids)
         return queryset
     # Excluded (non-default filters)

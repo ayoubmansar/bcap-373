@@ -28,7 +28,7 @@ from pytz import timezone
 from django.core.paginator import Paginator
 from django.views.generic import ListView
 # Filters
-from .filters import VolunteerFilter
+from .filters import VolunteerFilter, HistoryFilter
 
 # Email Receipt Stuff
 from django.core import mail
@@ -223,8 +223,6 @@ def add_individual_hours(request):
 def volunteers(request):
    if request.user.is_staff:
       records = User.objects.all()
-      #records = list(records)
-      #records.sort(key=lambda rec: rec.id, reverse=False)
 
       myFilter = VolunteerFilter(request.GET, queryset=records)
       records = myFilter.qs
@@ -240,7 +238,7 @@ def volunteers(request):
 def history(request):
    current_user = request.user
    title = ''
-   person_id = request.GET.get('user', '')
+   person_id = request.GET.get('owner', '')
    if person_id == '':
       # Not filtering by person, so display all records (or only user's current records)
       if current_user.is_staff:
@@ -257,13 +255,17 @@ def history(request):
          title = 'Volunteer Hours for ' + str(user_obj)
       else:
          return render(request, "landing.html")
+
+   myFilter = HistoryFilter(request.GET, queryset=records)
+   records = myFilter.qs
+
    running_total = sum(rec.hours for rec in records)
    records = list(records)
    records.sort(key=lambda rec: rec.date, reverse=True)
    paginator = Paginator(records, settings.PAGINATOR_COUNT)
    page_number = request.GET.get('page')
    page_obj = paginator.get_page(page_number)
-   return render(request, "history.html", {"page_obj" : page_obj, "running_total": running_total, "title": title, "id":person_id})
+   return render(request, "history.html", {"page_obj" : page_obj, "running_total": running_total, "title": title, "id":person_id, 'myFilter': myFilter})
 
 
 @login_required
