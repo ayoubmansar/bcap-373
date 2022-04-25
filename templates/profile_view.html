@@ -34,6 +34,10 @@
                 <td class="table-column-1 pr-4"> Date of account creation in system: </td>
                 <td class="table-column-2"> {{ view_user.date_joined }} </td>
             </tr>
+            <tr>
+                <td class="table-column-1 pr-4" {% if view_user.profile.waiver %} style="width:50%" {% endif %}> Waiver in system? </td>
+                <td class="table-column-2"> {% if view_user.profile.waiver %} {{ view_user.profile.waiver }} {% else %} No {% endif %} </td>
+            </tr>
         </table>
         <div class="button-holder custom-margins">
             <a href="/admin/auth/user/{{view_user.id}}/change/">
@@ -44,8 +48,6 @@
     <div>
         <h2 class="main-text m-2"> Hours Information </h2> 
         <div class="align-labels mr-4 ml-4">
-            <!-- <p class="mb-n1 pb-n1"> Serve 25 hours for a nametag. </p> 
-            <p class="mb-n1 pb-n1"> Serve 50 hours for a household membership. </p> -->
             <p class="mb-n1 pb-n1"> They have worked <a href="/history/?owner={{view_user.id}}"><span style="font-weight: bold">{{ hours }}</span> hours</a> so far (click the link to view hours breakdown).</p>
             <p class="mb-n1 pb-n1"><a href="/certificate/?id={{view_user.id}}">Generate certificate</a></p>
         </div>

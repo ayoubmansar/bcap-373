@@ -15,6 +15,7 @@ class Profile(models.Model):
 	phone = models.CharField(max_length=20, blank=True,
 		help_text="Please enter your phone number in the following format: (XXX) XXX-XXXX")
 	birth_date = models.DateField(null=True, blank=True)
+	waiver = models.CharField(null=True, max_length=300, help_text="If you have this user's waiver on file, please indicate this in this box (and give a link to where it can be found, e.g. on Google Drive)")
 	def __str__(self):
 		return "{} {}".format(self.user.first_name, self.user.last_name)
 
