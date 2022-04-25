@@ -239,6 +239,7 @@ def history(request):
    current_user = request.user
    title = ''
    person_id = request.GET.get('owner', '')
+   running_total = 0
    if person_id == '':
       # Not filtering by person, so display all records (or only user's current records)
       if current_user.is_staff:
@@ -255,11 +256,11 @@ def history(request):
          title = 'Volunteer Hours for ' + str(user_obj)
       else:
          return render(request, "landing.html")
-
+   running_total = sum(rec.hours for rec in records)
+   
    myFilter = HistoryFilter(request.GET, queryset=records)
    records = myFilter.qs
 
-   running_total = sum(rec.hours for rec in records)
    records = list(records)
    records.sort(key=lambda rec: rec.date, reverse=True)
    paginator = Paginator(records, settings.PAGINATOR_COUNT)

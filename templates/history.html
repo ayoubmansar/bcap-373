@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/history.css' %}">
 <br/>
 <h1 id="shadow" class="history-title">{{ title }}</h1>
-<h3 id="shadow">{{ running_total }} total hours</h3>
+<h3 id="shadow">{{ running_total }} total lifetime hours</h3>
 <div>
     <div class="card">
         <form method="get">
@@ -78,6 +78,7 @@
     document.getElementById('id_end_date').type = 'date';
     document.getElementById('id_owner').style.display = "none";
     // If NOT all volunteer hours, then we can hide the 'full name contains' search
+    // (also ensures they're staff)
     if (document.getElementsByClassName('history-title')[0].textContent != 'All Volunteer Hours') {
         document.getElementById('id_name').style.display = "none";
         document.getElementById('id_name').previousElementSibling.style.display = "none";
