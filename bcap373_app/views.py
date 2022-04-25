@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
-from .forms import SignUpForm, ProfileForm, VolunteerRecordForm, FilterForm
-from .models import VolunteerRecord
+from .forms import SignUpForm, ProfileForm, VolunteerRecordForm, FilterForm, EventForm
+from .models import VolunteerRecord, EventModel
 from django.conf import settings
 # Signup/Login stuff
 from django.contrib.auth import login, authenticate
@@ -28,7 +28,7 @@ from pytz import timezone
 from django.core.paginator import Paginator
 from django.views.generic import ListView
 # Filters
-from .filters import VolunteerFilter, HistoryFilter
+from .filters import VolunteerFilter, HistoryFilter, EventFilter
 
 # Email Receipt Stuff
 from django.core import mail
@@ -185,6 +185,23 @@ def signup(request):
          "user_form" : form,
       })
 
+@login_required
+def new_event(request):
+   if request.user.is_staff:
+      if request.method == "POST":
+         form = EventForm(request.POST)
+         if form.is_valid():
+            event = form.save()
+            event.refresh_from_db() 
+            event.save()
+            return redirect('/events')
+      else:
+         form = EventForm()
+      return render(request, "new_event.html", {
+            "event_form" : form,
+         })
+   else:
+      return render(request, "landing.html")
 
 @login_required
 def home(request):
@@ -218,6 +235,21 @@ def add_individual_hours(request):
       form = VolunteerRecordForm()
 
    return render(request, "add_individual_hours.html", {"form": form, "user": request.user})
+
+@login_required
+def events(request):
+   if request.user.is_staff:
+      records = EventModel.objects.all()
+      myFilter = EventFilter(request.GET, queryset=records)
+      records = myFilter.qs
+      records = list(records)
+      records.sort(key=lambda rec: rec.id, reverse=True)
+      paginator = Paginator(records, settings.PAGINATOR_COUNT)
+      page_number = request.GET.get('page')
+      page_obj = paginator.get_page(page_number)
+      return render(request, "events.html", {"page_obj" : page_obj, 'myFilter': myFilter})
+   else:
+      return render(request, "landing.html")
 
 @login_required
 def volunteers(request):
@@ -296,6 +328,23 @@ def update_profile(request):
     })
 
 @login_required
+def update_event(request):
+   event_id = request.GET.get('id', '')
+   if request.user.is_staff and event_id != '' and EventModel.objects.filter(id=int(event_id)).count() == 1:
+      if request.method == "POST":
+         event_form = EventForm(request.POST, instance=EventModel.objects.filter(id=int(event_id)).first())
+         if event_form.is_valid():
+            event_form.save()
+            return redirect('/profile')
+      else:
+         event_form = EventForm(instance=EventModel.objects.filter(id=int(event_id)).first())
+      return render(request, 'update_event.html', {
+         'event_form': event_form, 'id': event_id
+      })
+   else:
+      return render(request, "landing.html")
+
+@login_required
 def view_user(request):
    if request.user.is_staff:
     user_id = request.GET.get('user', '')
@@ -323,3 +372,15 @@ def delete_volunteer_record(request):
          vol_record.delete()
          return history(request)
       return history(request)
+
+@login_required
+def delete_event(request):
+   print('hi' + request.GET.get('id','noid'))
+   record_id = request.GET.get('id', '')
+   if record_id != '' and request.user.is_staff:
+      print('hi2')
+      event_record = EventModel.objects.get(id=int(record_id))
+      event_record.delete()
+      return events(request)
+   else:
+      return render(request, "landing.html")

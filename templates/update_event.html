@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pageContent %}
+<div class="center-page center-text">
+   <h2 class="main-text m-2">Update Event</h2>           
+   <form method="post">
+   {% csrf_token %}
+   <div class="align-fields-general">
+      <p>
+         <div class="align-fields">
+            <div class="align-labels">
+            {{ event_form.name.label_tag }} <br/>
+            </div>
+            <div class="align-labels">
+            {{ event_form.name }} 
+            </div>
+            {% for error in event_form.name.errors %}
+            <p style="color: red">{{ error }}</p>
+            {% endfor %}
+         </div>
+      </p>
+      
+      <button class="btn btn-primary px-2 m-3" type="Submit">Save Changes</button>
+      </form>
+      <div class="btn btn-red px-2 m-3">
+         <a href="/delete_event/?id={{id}}" style="color:white">Delete</a>
+      </div>
+    </div>   
+</div>
+{% endblock pageContent%}

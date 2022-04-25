@@ -118,6 +118,13 @@ body {
     background-color: #233470 !important;
 }
 
+.btn-red {
+    font-family: 'proxima-nova', sans-serif;
+    font-weight: 300;
+    background-color: #c10909  !important;
+    color: white;
+}
+
 .a-btn {
     padding-left: 10px;
     background-color: none !important;

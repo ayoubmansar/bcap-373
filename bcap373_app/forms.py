@@ -1,4 +1,4 @@
-from .models import VolunteerRecord, Profile
+from .models import VolunteerRecord, Profile, EventModel
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -28,7 +28,6 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2','phone','birth_date')
         
-
 class ProfileForm(forms.ModelForm):
     TRUE_FALSE_CHOICES = (
         (True, 'Yes'),
@@ -54,6 +53,11 @@ class VolunteerRecordForm(forms.ModelForm):
             'description' : forms.Textarea(attrs={'id': 'form_desc','rows':4, 'cols':20})
         }
 
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = EventModel
+        fields = ('name',)
+
 
 class FilterForm(forms.Form):
     start_date = forms.DateField(widget=DateInput)
@@ -65,7 +69,6 @@ class FilterForm(forms.Form):
         valid = super(FilterForm, self).is_valid()
         if not valid:
             return valid
-
 
         start_year = self.cleaned_data['start_date'].year
         start_month = self.cleaned_data['start_date'].month
