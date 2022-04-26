@@ -25,6 +25,7 @@
         <tr>
             <th scope="col" style="width: 5%;">ID</th>
             <th scope="col">Name of Event</th>
+            <th scope="col">Supervisor</th>
             <th scope="col">Manage</th>
         </tr>
     </thead>
@@ -33,6 +34,7 @@
         <tr>
             <td>{{ r.id }}</td>
             <td>{{ r.name }}</td>
+            <td>{{ r.event_supervisor }}</td>
             <td><a href="/update-event/?id={{r.id}}">Edit</a></td>
         </tr>
         {% endfor %}

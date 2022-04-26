@@ -14,7 +14,11 @@
 
             <p>
                 <div class="align-labels">
-                    {{ field.label_tag }} <br/>
+                    {% if field.field.required %}
+                        {{ field.label_tag }} <i>(Required)</i>
+                    {% else %}
+                        {{ field.label_tag }}
+                    {% endif %} <br/>
                 </div>
                 <div class="align-fields">
                     {{ field }} 

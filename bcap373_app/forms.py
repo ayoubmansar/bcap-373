@@ -56,7 +56,7 @@ class VolunteerRecordForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = EventModel
-        fields = ('name',)
+        fields = ('name','event_supervisor')
 
 
 class FilterForm(forms.Form):

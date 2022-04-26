@@ -6,19 +6,22 @@
    <form method="post">
    {% csrf_token %}
    <div class="align-fields-general">
-      <p>
-         <div class="align-fields">
-            <div class="align-labels">
-            {{ event_form.name.label_tag }} <br/>
-            </div>
-            <div class="align-labels">
-            {{ event_form.name }} 
-            </div>
-            {% for error in event_form.name.errors %}
-            <p style="color: red">{{ error }}</p>
-            {% endfor %}
-         </div>
-      </p>
+         {% for field in event_form %}
+
+         <p>
+             <div class="align-labels">
+               {% if field.field.required %}
+                  {{ field.label_tag }} <i>(Required)</i>
+               {% else %}
+                  {{ field.label_tag }}
+               {% endif %}
+             </div>
+             <div class="align-fields">
+                 {{ field }} 
+             </div>
+         </p>
+
+         {% endfor %}
       
       <button class="btn btn-primary px-2 m-3" type="Submit">Save Changes</button>
       </form>

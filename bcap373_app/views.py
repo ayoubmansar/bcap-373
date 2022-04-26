@@ -335,7 +335,7 @@ def update_event(request):
          event_form = EventForm(request.POST, instance=EventModel.objects.filter(id=int(event_id)).first())
          if event_form.is_valid():
             event_form.save()
-            return redirect('/profile')
+            return redirect('/events')
       else:
          event_form = EventForm(instance=EventModel.objects.filter(id=int(event_id)).first())
       return render(request, 'update_event.html', {

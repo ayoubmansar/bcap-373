@@ -7,6 +7,7 @@ from django.db.models import Sum
 
 class EventModel(models.Model):
 	name = models.CharField(max_length=256, blank=False)
+	event_supervisor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'is_staff': True}, related_name='event_supervisor')
 	def __str__(self):
 		return self.name
 	
