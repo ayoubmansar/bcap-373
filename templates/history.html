@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% load template_tags %}
-
 {% block pageContent %}
 <!-- <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/history.css' %}"> -->
 
@@ -11,9 +10,10 @@
         <div class="top-header">
             <div>
                 <h4 class="history-title">{{ title }}</h4>
+                {% include 'messages.html' %}
             </div>
             <div class="home-right">
-                <a href='add-volunteer-hours.html'>
+                <a href='/add_individual_hours'>
                     <button class="btn btn-primary">Add volunteer hours</button>
                 </a>
                 <!-- <div class="search-container">
@@ -33,7 +33,7 @@
                         Filter & Sort
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <h4>Sort by:</h4>
+                        <h4>Filter by:</h4>
                         <form method="get">
                             {{myFilter.form}}
                             <button type="submit">Search</button>

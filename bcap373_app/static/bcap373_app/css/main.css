@@ -13,6 +13,11 @@ body {
     height: 100%;
 }
 
+.profile-table td {
+    padding-right: 30px;
+    padding-bottom: 10px;
+}
+
 .spacingadj {
     line-height: 30px;
 }
@@ -21,7 +26,8 @@ body {
     margin-right: 40px;
 }
 .danger {
-    background:red !important;
+    background: #b10000  !important;
+    border: 0px !important;
 }
 .rowheader {
     font-weight:bold !important;
@@ -115,6 +121,23 @@ input[type=text] {
     color: #4D4D4D;
 }
 
+.align-fields select, .align-fields input, .align-fields textarea {
+    width: 100%;
+}
+
+.align-fields-general {
+    width: 180px;
+    margin: auto;
+}
+
+.align-labels {
+    text-align: left;
+}
+
+.align-fields {
+    text-align: center;
+}
+
 .tools{
     display: flex;
     justify-content: space-between;
@@ -195,6 +218,10 @@ dl {
     content: "Phone: ";
 }
 
+.data-item .role:before {
+    content: "Role: ";
+}
+
 .data-item .email:before {
     content: "Email: ";
 }
@@ -239,6 +266,7 @@ dt {
     .data-item .date:before,
     .data-item .activity:before,
     .data-item .supervisor:before,
+    .data-item .role:before,
     .data-item .hours:before{
         content: "";
     }

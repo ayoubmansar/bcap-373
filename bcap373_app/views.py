@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm, ProfileForm, VolunteerRecordForm, FilterForm, EventForm
 from .models import VolunteerRecord, EventModel
 from django.conf import settings
+# Flash messages
+from django.contrib import messages
 # Signup/Login stuff
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -227,7 +229,8 @@ def add_individual_hours(request):
             #from_email = settings.DEFAULT_FROM_EMAIL
             #to = request.user.email
             #mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
-            return redirect('/success')
+            messages.success(request, 'Hours added successfully')
+            return redirect('/history')
    else:
       form = VolunteerRecordForm()
 
