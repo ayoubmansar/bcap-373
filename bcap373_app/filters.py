@@ -1,5 +1,5 @@
 import django_filters
-from django_filters import DateFilter, CharFilter, NumberFilter
+from django_filters import DateFilter, CharFilter, NumberFilter, OrderingFilter
 from .models import *
 
 class EventFilter(django_filters.FilterSet):
@@ -33,7 +33,21 @@ class HistoryFilter(django_filters.FilterSet):
     name = CharFilter(method=name, label='Full name contains')
     start_date = DateFilter(field_name="date", lookup_expr='gte')
     end_date = DateFilter(field_name="date", lookup_expr='lte')
-    # hours
+    # Ordering
+    o = OrderingFilter(
+        fields=(
+            ('name','name'),
+            ('hours','hours'),
+            ('activity','activity'),
+            ('date','date')
+        ),
+        field_labels={
+            'name': 'Full name',
+            'hours': 'Volunteer hours',
+            'activity': 'Event',
+            'date': 'Date added'
+        }
+    )
     class Meta:
         ordering = ['-id']
         model = VolunteerRecord

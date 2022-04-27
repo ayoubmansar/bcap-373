@@ -293,8 +293,8 @@ def history(request):
    myFilter = HistoryFilter(request.GET, queryset=records)
    records = myFilter.qs
 
-   records = list(records)
-   records.sort(key=lambda rec: rec.date, reverse=True)
+   # records = list(records)
+   # records.sort(key=lambda rec: rec.date, reverse=True)
    paginator = Paginator(records, settings.PAGINATOR_COUNT)
    page_number = request.GET.get('page')
    page_obj = paginator.get_page(page_number)
