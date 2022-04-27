@@ -71,6 +71,19 @@ class VolunteerFilter(django_filters.FilterSet):
     total_hours = NumberFilter(method=total_hours, label='Total hours greater than or equal to')
     first_name = CharFilter(field_name='first_name', lookup_expr='icontains')
     last_name = CharFilter(field_name='last_name', lookup_expr='icontains')
+    # Ordering
+    o = OrderingFilter(
+        fields=(
+            ('username','username'),
+            ('first_name','first_name'),
+            ('last_name','last_name')
+        ),
+        field_labels={
+            'username': 'Username',
+            'first_name': 'First name',
+            'last_name': 'Last name'
+        }
+    )
     # Meta class
     class Meta:
         ordering = ['-id'] # To avoid pagination issues

@@ -217,12 +217,9 @@ def add_individual_hours(request):
       form = VolunteerRecordForm(request.POST)
       if form.is_valid():
             # Set user field in the form here
-            #print("before commit false")
             record = form.save(commit = False)
-            #print("after", record)
             record.owner = request.user
             record.save()
-            #print("success")
             #TODO: Ayoub: Disabled email sending for now
             #subject = 'SLO Botanical Garden - Tracking Form Receipt'
             #html_message = render_to_string('email_template.html', {'form': form.cleaned_data}) 
@@ -293,8 +290,6 @@ def history(request):
    myFilter = HistoryFilter(request.GET, queryset=records)
    records = myFilter.qs
 
-   # records = list(records)
-   # records.sort(key=lambda rec: rec.date, reverse=True)
    paginator = Paginator(records, settings.PAGINATOR_COUNT)
    page_number = request.GET.get('page')
    page_obj = paginator.get_page(page_number)
@@ -375,10 +370,8 @@ def delete_volunteer_record(request):
 
 @login_required
 def delete_event(request):
-   print('hi' + request.GET.get('id','noid'))
    record_id = request.GET.get('id', '')
    if record_id != '' and request.user.is_staff:
-      print('hi2')
       event_record = EventModel.objects.get(id=int(record_id))
       event_record.delete()
       return events(request)

@@ -53,11 +53,16 @@
     </tbody>
 </table>
 <div class="pagination">
-    {% for i in page_obj.paginator.page_range %}
-      <li>
-        <a href="{% relative_url i 'page' request.GET.urlencode %}">{{ i }}</a>
-      </li>
-    {% endfor %}
+    {% if page_obj.has_previous %}
+        <a href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}">&larr;</a>
+    {% else %}
+        &larr;
+    {% endif %}
+    {% if page_obj.has_next %}
+        <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}">&rarr;</a>
+    {% else %}
+        &rarr;
+    {% endif %}
 </div>
 <br/>
 
