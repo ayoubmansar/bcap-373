@@ -35,6 +35,11 @@ body {
     justify-content:space-between
 }
 
+.navbar-user {
+    text-align: center;
+    font-weight: bold;
+}
+
 .nav-options {
     justify-content: left;
     align-items: left;

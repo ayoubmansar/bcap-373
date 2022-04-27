@@ -10,18 +10,18 @@
     <div class="well">
         <div class="top-header">
             <div>
-                <h4>Volunteer Hours</h4>
+                <h4 class="history-title">{{ title }}</h4>
             </div>
             <div class="home-right">
                 <a href='add-volunteer-hours.html'>
                     <button class="btn btn-primary">Add volunteer hours</button>
                 </a>
-                <div class="search-container">
+                <!-- <div class="search-container">
                     <form action="/action_page.php">
                         <input type="text" placeholder="Search" name="search">
-                        <button><i class="material-icons md-48">search</i></button>
+                        <button type="submit"><i class="material-icons md-48">search</i></button>
                     </form>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -30,7 +30,7 @@
                 <div class="dropdown" style="margin-right:10px">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Sort
+                        Filter & Sort
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <h4>Sort by:</h4>
@@ -189,6 +189,10 @@
     document.getElementById('id_start_date').type = 'date';
     document.getElementById('id_end_date').type = 'date';
     document.getElementById('id_owner').style.display = "none";
+    const btn = document.getElementById('id_o').nextElementSibling;
+    btn.insertAdjacentHTML('beforebegin','<br/><br/>');
+    document.getElementById('id_o').previousElementSibling.style.display = "none";
+    document.getElementById('id_o').previousElementSibling.insertAdjacentHTML('beforebegin','<br/><br/><h4>Order by:<br/>');
     // If NOT all volunteer hours, then we can hide the 'full name contains' search
     // (also ensures they're staff)
     if (document.getElementsByClassName('history-title')[0].textContent != 'All Volunteer Hours') {
