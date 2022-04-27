@@ -3,8 +3,127 @@
 {% load template_tags %}
 
 {% block pageContent %}
-<link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/history.css' %}">
-<br/>
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/history.css' %}"> -->
+
+
+<div class="col-sm custom-grid">
+    <div class="well">
+        <div class="top-header">
+            <div>
+                <h4>Volunteer Hours</h4>
+            </div>
+            <div class="home-right">
+                <a href='add-volunteer-hours.html'>
+                    <button class="btn btn-primary">Add volunteer hours</button>
+                </a>
+                <div class="search-container">
+                    <form action="/action_page.php">
+                        <input type="text" placeholder="Search" name="search">
+                        <button><i class="material-icons md-48">search</i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="tools">
+            <div class="left-menu">
+                <div class="dropdown" style="margin-right:10px">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <h4>Sort by:</h4>
+                        <form method="get">
+                            {{myFilter.form}}
+                            <button type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <!-- <a class="a-btn" href="/export/{% if id != '' %}?id={{id}}{% endif%}">
+                        <button class="btn wide-btn btn-primary" type="submit" form="form">Export Records to CSV</button>
+                    </a> -->
+                    <a href="/export/{% if id != '' %}?id={{id}}{% endif%}"><button type="button" class="btn btn-outline-primary">Export</button></a>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <p style="margin-right: 20px;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
+                {% if page_obj.has_previous %}
+                    <a href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}"><i class="material-icons md-48">keyboard_arrow_left</i></a>
+                {% else %}
+                    <i class="material-icons md-48">keyboard_arrow_left</i>
+                {% endif %}
+                {% if page_obj.has_next %}
+                    <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}"><i class="material-icons md-48">keyboard_arrow_right</i></a>
+                {% else %}
+                    <i class="material-icons md-48">keyboard_arrow_right</i>
+                {% endif %}
+            </div>
+            <!-- <div class="pagination">
+                <p style="margin-right: 20px;">1-20 of 200</p>
+                <button class="secondary-button"><i
+                        class="material-icons md-48">keyboard_arrow_left</i></button>
+                <button class="secondary-button"><i
+                        class="material-icons md-48">keyboard_arrow_right</i></button>
+            </div> -->
+        </div>
+
+        <!-- <div class="card">
+            <form method="get">
+                {{myFilter.form}}
+                <button type="submit">Search</button>
+            </form>
+        </div> -->
+        <div>
+            <ul class="data-frame">
+                <li class="data-item frame-header">
+                    <dl>
+                        {% if user.is_staff %}
+                            <dt class = "rowheader">Volunteer</dt>
+                        {% endif %}
+                        <dd class = "rowheader">Date</dd>
+                        <dd class = "rowheader">Hours</dd>
+                        <dd class = "rowheader">Event</dd>
+                        <dd class = "rowheader">Supervisor</dd>
+                        <dd class = "rowheader">Edit</dd>
+                    </dl>
+                </li>
+                {% for r in page_obj %}
+                    <li class="data-item">
+                        <dl>
+                            {% if user.is_staff %}
+                                <td><a href="/view_user/?user={{r.owner.id}}">{{ r.owner }}</a></td>
+                            {% endif %}
+                            <dd class="date">{{ r.date }}</dd>
+                            <dd class="hours">{{ r.hours }}</dd>
+                            <dd class="activity">{{ r.activity }}</dd>
+                            {% if user.is_staff and r.supervisor != None %}
+                                <dd class="supervisor"><a href="/view_user/?user={{r.supervisor.id}}">{{ r.supervisor }}</a></dd>
+                            {% else %}
+                                <dd class="supervisor">{{ r.supervisor }}</dd>
+                            {% endif %}
+                            {% if user.is_staff %}
+                                <li><a href="/admin/bcap373_app/volunteerrecord/{{r.id}}/change/"><i class="material-icons md-48">edit</i></a></li>
+                                <!-- <td><a href="/admin/bcap373_app/volunteerrecord/{{r.id}}/change/">Manage</a></td> -->
+                            {% else %}
+                                <li><a href="/delete_volunteer_record/?id={{r.id}}"><i class="material-icons md-48">delete</i></a></li>
+                            {% endif %}
+                        </dl>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<!-- <br/>
 <h1 id="shadow" class="history-title">{{ title }}</h1>
 <h3 id="shadow">{{ running_total }} total lifetime hours</h3>
 <div>
@@ -64,11 +183,8 @@
         &rarr;
     {% endif %}
 </div>
-<br/>
+<br/> -->
 
-<a class="a-btn" href="/export/{% if id != '' %}?id={{id}}{% endif%}">
-    <button class="btn wide-btn btn-primary" type="submit" form="form">Export Records to CSV</button>
-</a>
 <script>
     document.getElementById('id_start_date').type = 'date';
     document.getElementById('id_end_date').type = 'date';
