@@ -196,6 +196,7 @@ def new_event(request):
             event = form.save()
             event.refresh_from_db() 
             event.save()
+            messages.success(request, 'Event created successfully')
             return redirect('/events')
       else:
          form = EventForm()
@@ -333,6 +334,7 @@ def update_event(request):
          event_form = EventForm(request.POST, instance=EventModel.objects.filter(id=int(event_id)).first())
          if event_form.is_valid():
             event_form.save()
+            messages.success(request, 'Event updated successfully')
             return redirect('/events')
       else:
          event_form = EventForm(instance=EventModel.objects.filter(id=int(event_id)).first())
@@ -363,13 +365,17 @@ def view_user(request):
 def delete_volunteer_record(request):
    record_id = request.GET.get('id', '')
    if record_id == '':
-      return history(request)
+      messages.error(request, 'Invalid volunteer record ID')
+      return redirect ('/history')
    else:
       vol_record = VolunteerRecord.objects.get(id=int(record_id))
       if vol_record.owner == request.user:
          vol_record.delete()
-         return history(request)
-      return history(request)
+         messages.warning(request, 'Volunteer record delected successfully')
+         return redirect ('/history')
+      else:
+         messages.error(request, 'You do not have permission to perform this action.')
+         return redirect ('/history')
 
 @login_required
 def delete_event(request):
@@ -377,6 +383,7 @@ def delete_event(request):
    if record_id != '' and request.user.is_staff:
       event_record = EventModel.objects.get(id=int(record_id))
       event_record.delete()
-      return events(request)
+      messages.warning(request, 'Event delected successfully')
+      return redirect ('/events')
    else:
       return render(request, "landing.html")

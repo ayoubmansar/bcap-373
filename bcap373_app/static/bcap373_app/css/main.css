@@ -27,6 +27,7 @@ body {
 }
 .danger {
     background: #b10000  !important;
+    color: white !important;
     border: 0px !important;
 }
 .rowheader {
