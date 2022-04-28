@@ -50,7 +50,7 @@
                     <i class="material-icons md-48">keyboard_double_arrow_left</i>
                     <i class="material-icons md-48">keyboard_arrow_left</i>
                 {% endif %}&nbsp;
-                <p style="margin-right: 5px; margin-left: 5px;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
+                <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
                 {% if page_obj.has_next %}
                     <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}"><i class="material-icons md-48">keyboard_arrow_right</i></a>
                     <a href="{% relative_url page_obj.paginator.num_pages 'page' request.GET.urlencode %}"><i class="material-icons md-48">keyboard_double_arrow_right</i></a>
@@ -96,7 +96,7 @@
                                 <dd class="supervisor">{{ r.supervisor }}</dd>
                             {% endif %}
                             {% if user.is_staff %}
-                                <li><a href="/admin/bcap373_app/volunteerrecord/{{r.id}}/change/"><i class="material-icons md-48">edit</i></a></li>
+                                <li><a href="/edit_individual_hours/?id={{r.id}}"><i class="material-icons md-48">edit</i></a></li>
                                 <!-- <td><a href="/admin/bcap373_app/volunteerrecord/{{r.id}}/change/">Manage</a></td> -->
                             {% else %}
                                 <li><a href="/delete_volunteer_record/?id={{r.id}}"><i class="material-icons md-48">delete</i></a></li>
@@ -104,6 +104,9 @@
                         </dl>
                     </li>
                 {% endfor %}
+                {% if page_obj.has_next %}
+                    <i>more records on next pages...</i>
+                {% endif %}
             </ul>
         </div>
     </div>

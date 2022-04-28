@@ -44,27 +44,29 @@ class HistoryFilter(django_filters.FilterSet):
     # Ordering
     o = OrderingFilter(
         fields=(
-            ('name','name'),
+            ('owner','owner'),
+            ('date','date'),
             ('hours','hours'),
-            ('activity','activity'),
-            ('date','date')
+            ('activity','activity')
         ),
         field_labels={
-            'name': 'Full name',
+            'owner': 'Volunteer name',
+            'date': 'Date added',
             'hours': 'Volunteer hours',
-            'activity': 'Event',
-            'date': 'Date added'
+            'activity': 'Event'
         }
     )
     class Meta:
         ordering = ['-id']
         model = VolunteerRecord
-        fields = ['activity','supervisor','hours','owner']
+        fields = ['activity','supervisor','owner']
     
     def __init__(self, *args, **kwargs):
        super(HistoryFilter, self).__init__(*args, **kwargs)
-       self.filters['hours'].label="Hours equal to"
+       # self.filters['hours'].label="Hours equal to"
        self.filters['owner'].label=""
+       self.filters['start_date'].label = "Date is after (& including):"
+       self.filters['end_date'].label = "Date is before (& including):"
 
 
 class VolunteerFilter(django_filters.FilterSet):
@@ -82,12 +84,10 @@ class VolunteerFilter(django_filters.FilterSet):
     # Ordering
     o = OrderingFilter(
         fields=(
-            ('username','username'),
             ('first_name','first_name'),
             ('last_name','last_name')
         ),
         field_labels={
-            'username': 'Username',
             'first_name': 'First name',
             'last_name': 'Last name'
         }

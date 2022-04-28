@@ -72,16 +72,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><img class=" nav-bar-image" src="{% static 'bcap373_app/img/bcap373_logo.png' %}"></a>
+                <a class="navbar-brand" href="/add_individual_hours"><img class=" nav-bar-image" src="{% static 'bcap373_app/img/bcap373_logo.png' %}"></a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                  <li><h5 class="navbar-user">Welcome back, {{ user.get_full_name }}!</h5></li>
+                  <li><h5 class="navbar-user">Welcome back, {{ user.first_name }}!</h5></li>
                   {% if user.is_staff %}
                     <li {% if request.resolver_match.url_name == 'volunteers' %}class="active"{% endif %}><a href="/volunteers">Volunteers</a></li>
                   {% endif %}
                   <li {% if request.resolver_match.url_name == 'add_individual_hours' %}class="active"{% endif %}><a href="/add_individual_hours">Add Volunteer Hours</a></li>
-                  <li {% if request.resolver_match.url_name == 'history' %}class="active"{% endif %}><a href="/history">View Hours</a></li>
+                  <li {% if request.resolver_match.url_name == 'history' or request.resolver_match.url_name == 'edit_individual_hours' %}class="active"{% endif %}><a href="/history">View Hours</a></li>
                   {% if user.is_staff %}
                     <li {% if request.resolver_match.url_name == 'events' or request.resolver_match.url_name == 'update_event' %}class="active"{% endif %}><a href="/events">Events</a></li>
                   {% endif %}
@@ -99,12 +99,12 @@
             </div>
 
             <ul class="nav nav-pills nav-stacked">
-                <li><h5 class="navbar-user">Welcome back, {{ user.get_full_name }}!</h5></li>
+                <li><h5 class="navbar-user">Welcome back, {{ user.first_name }}!</h5></li>
                 {% if user.is_staff %}
                   <li {% if request.resolver_match.url_name == 'volunteers' %}class="active"{% endif %}><a href="/volunteers">Volunteers</a></li>
                 {% endif %}
                 <li {% if request.resolver_match.url_name == 'add_individual_hours' %}class="active"{% endif %}><a href="/add_individual_hours">Add Volunteer Hours</a></li>
-                <li {% if request.resolver_match.url_name == 'history' %}class="active"{% endif %}><a href="/history">View Hours</a></li>
+                <li {% if request.resolver_match.url_name == 'history' or request.resolver_match.url_name == 'edit_individual_hours' %}class="active"{% endif %}><a href="/history">View Hours</a></li>
                 {% if user.is_staff %}
                   <li {% if request.resolver_match.url_name == 'events' or request.resolver_match.url_name == 'update_event' %}class="active"{% endif %}><a href="/events">Events</a></li>
                 {% endif %}

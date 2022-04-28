@@ -6,14 +6,15 @@
     <div class="well">
         <div class="top-header">
             <div>
-                <a href="/events">Back to events</a>
+                <a href="/history">Back to hours history</a>
+                {% include 'messages.html' %}
                 <div class="tools"></div>  
             </div>
         </div>
         <form method="POST" id="form" style="width: 0%;"> {% csrf_token %}
             <div class="align-fields-general">
-                <h4>Update event</h4>
-                {% for field in event_form %}
+                <h4>Edit volunteer hour record</h4>
+                {% for field in form %}
     
                 <p>
                     <div class="align-labels">
@@ -31,14 +32,14 @@
                 {% endfor %}
     
             </div>
-            <br/>
-            <div class="button-holder custom-margins">
-                <button class="btn btn-primary px-2 m-3" type="submit" form="form">Save changes</button>
-                <br/>
-                <br/>
-                <button class="btn btn-primary px-2 m-3 danger" type="submit" form="form"><a href="/delete_event?id={{id}}" style="color:white;" onclick="return confirm('Are you sure you would like to delete this event?')">Delete</a></button>
-            </div>
+            <div class="align-fields button-holder custom-margins"></div>
+            <button class="btn wide-btn btn-primary" type="submit" form="form">Submit</button>
         </form>
+        <br/>
+        <div class="tools"></div>
+        <h4>Delete record</h4>
+        <button class="btn btn-primary px-2 m-3 danger" type="submit" form="form"><a href="/delete_volunteer_record/?id={{request.GET.id}}" onclick="return confirm('Are you sure you would like to delete this volunteer record?')" style="color:white;">Delete</a></button>
+        <br/>
     </div>
 </div>
 

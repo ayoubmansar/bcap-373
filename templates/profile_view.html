@@ -14,6 +14,7 @@
                     <br/>
                 {% endif %}
                 <h4>Profile of <b>{{ view_user }}</b> (User ID {{ view_user.id}})</h4>
+                {% include 'messages.html' %}
                 <div class="tools"></div>        
                 <table class="profile-table">
                     <tr>
@@ -23,6 +24,10 @@
                     <tr>
                         <td> Last Name: </td>
                         <td>{{ view_user.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <td> Username: </td>
+                        <td>{{ view_user.username }} </td>
                     </tr>
                     <tr>
                         <td> Email: </td>
@@ -42,7 +47,7 @@
                     </tr>
                     <tr>
                         <td> Date of account creation in system: </td>
-                        <td>{{ view_user.date_joined }}</td>
+                        <td>{{ view_user.date_joined }} UTC</td>
                     </tr>
                     <tr>
                         <td> Waiver in system? </td>
@@ -51,7 +56,7 @@
                 </table>
                 <br/>
                 <div class="button-holder custom-margins">
-                    <a href="/admin/auth/user/{{view_user.id}}/change/"><button class="btn btn-primary px-2 m-3">Edit User</button></a>
+                    <a href="/update-user/?id={{view_user.id}}"><button class="btn btn-primary px-2 m-3">Edit User</button></a>
                 </div>
                 <br/>
             </div>

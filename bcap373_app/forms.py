@@ -28,6 +28,23 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2','phone','birth_date')
         
+class UpdateUserForm(forms.Form):
+    ADMIN_CHOICES = (
+        (0, '---------'),
+        (1, 'BCAP Staff'),
+        (2, 'Volunteer')
+    )
+    # A custom form for admins
+    first_name = forms.CharField(max_length=30, required=False, help_text='Required.')
+    last_name = forms.CharField(max_length=30, required=False, help_text='Required.')
+    email = forms.EmailField(max_length=254, help_text='Required. Please provide a valid email address.')
+
+    phone = forms.CharField(max_length=30, required=False, help_text='Please provide a standard US phone number.')
+    birth_date = forms.DateField(help_text='Format: YYYY-MM-DD', required=False, 
+                                    widget=DateInput(attrs={'id':'dateTimePicker'}))
+    waiver = forms.CharField(max_length=300, required=False, help_text="If you have this user's waiver on file, please indicate this in this box (and give a link to where it can be found, e.g. on Google Drive)")
+    is_staff = forms.ChoiceField(choices = ADMIN_CHOICES, label="Account permissions")
+
 class ProfileForm(forms.ModelForm):
     TRUE_FALSE_CHOICES = (
         (True, 'Yes'),
@@ -57,7 +74,6 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = EventModel
         fields = ('name','event_supervisor')
-
 
 class FilterForm(forms.Form):
     start_date = forms.DateField(widget=DateInput)

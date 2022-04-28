@@ -90,9 +90,24 @@ body {
     width: 200px !important;
     position: fixed;
 }
+
+.update_user_child1 {
+    border-right: 1px solid rgba(0, 0, 0, 0.185);
+    padding-right: 30px !important;
+}
+
+.update_user_child1, .update_user_child2 {
+    display: inline-block;
+    padding: 1rem 1rem;
+    vertical-align: top;
+}
         
 /* On small screens, set height to 'auto' for the grid */
 @media screen and (max-width: 766px) {
+    .update_user_child1 {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.185);
+        border-right: 0px;
+    }
     .custom-grid {
         margin-left:40px;
     }
@@ -111,15 +126,22 @@ body {
     color: white;
 }
 
-input[type=text] {
+input, select {
     padding: 6px;
     font-size: 14px;
-    border: 1px solid #5678FF;
+    border: 1px solid #24357c;
     height: 44px;
     width: 200px;;
     font-weight: normal;
     padding-left: 20px;
     color: #4D4D4D;
+
+    border-radius: 5px;
+    margin-bottom: 3px;
+}
+
+input[type=number], input[type=date], select {
+    height: 30px;
 }
 
 .align-fields select, .align-fields input, .align-fields textarea {

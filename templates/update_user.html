@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pageContent %}
+
+<div class="col-sm custom-grid">
+    <div class="well">
+      <div class="top-header">
+         <div>
+               <a href="/view_user/?user={{user.id}}">Back to profile</a>
+               <h4>Updating {{user}}</h4>
+               <div class="tools"></div>  
+         </div>
+      </div>
+      <div class="update_user_box">
+         <div class="update_user_child1">
+            <h4>Basic properties</h4>
+            <p><b>Username:</b> {{ user.username }}</p>
+            <script>
+               function validate(form) {
+                  if (document.getElementById('id_is_staff').value == '1') {
+                     return confirm('You have modified the user permissions for this user. This user will be granted full BCAP-staff privileges. Are you SURE you wish to do this?')
+                  } else {
+                     return true;
+                  }
+               }
+            </script>
+            <form method="post" onsubmit="return validate(this);">
+               {% csrf_token %}
+               <div class="align-fields-general" style="margin:unset;">
+                  <p>
+                     <div class="align-fields">
+                        <div class="align-labels">
+                           {{ form.first_name.label_tag }} <br/>
+                        </div>
+                        <div class="align-labels">
+                           <input type="text" name="first_name" maxlength="30" id="id_first_name" value="{{user.first_name}}">
+                        </div>
+                        {% for error in form.first_name.errors %}
+                           <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                     </div>
+                     <div class="align-fields">
+                        <div class="align-labels">
+                           {{ form.last_name.label_tag }} <br/>
+                        </div>
+                        <div class="align-labels">
+                           <input type="text" name="last_name" maxlength="30" id="id_last_name" value="{{user.last_name}}">
+                        </div>
+                        {% for error in form.last_name.errors %}
+                           <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                     </div>
+                     <div class="align-fields">
+                        <div class="align-labels">
+                           {{ form.email.label_tag }} <br/>
+                        </div>
+                        <div class="align-labels">
+                           <input type="text" name="email" maxlength="30" id="id_email" value="{{user.email}}">
+                        </div>
+                        {% for error in form.email.errors %}
+                           <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                     </div>
+                     <div class="align-fields">
+                        <div class="align-labels">
+                           {{ form.phone.label_tag }} <br/>
+                        </div>
+                        <div class="align-labels">
+                           <input type="number" min="0" name="phone" id="id_phone" value="{{user.profile.phone}}">
+                        </div>
+                        {% for error in form.phone.errors %}
+                           <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                     </div>
+                     <div class="align-fields">
+                        <div class="align-labels">
+                           {{ form.birth_date.label_tag }} <br/>
+                        </div>
+                        <div class="align-labels">
+                           <input type="date" name="birth_date" id="dateTimePicker" value="{{user.profile.birth_date|date:'Y-m-d'}}">
+                        </div>
+                        {% for error in form.birth_date.errors %}
+                           <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                     </div>
+                     <div class="align-fields">
+                        <div class="align-labels">
+                           {{ form.waiver.label_tag }} <br/> (leave empty for no waiver) <br/>
+                        </div>
+                        <div class="align-labels">
+                           <input type="text" name="waiver" maxlength="300" id="id_waiver" value="{{user.profile.waiver}}">
+                        </div>
+                        {% for error in form.waiver.errors %}
+                           <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                     </div>
+                     <br/>
+                     <div class="tools"></div>
+                     <div class="align-fields">
+                        <div class="align-labels">
+                           {{ form.is_staff.label_tag }} <br/>(if you don't wish to change this, leave as -----)<br/>
+                        </div>
+                        <div class="align-labels">
+                           {{ form.is_staff }} <br/>
+                        </div>
+                        {% for error in form.is_staff.errors %}
+                           <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                     </div>
+                  </p>
+                  <button class="btn btn-primary px-2 m-3" type="Submit">Save Changes</button>
+               </div>
+            </form>
+         </div>
+         <div class="update_user_child2">
+            <h4>Advanced changes</h4>
+            <b>Sophisticated changes:</b>
+            <br/>
+            <p>If you need to make more sophisticated changes, or to delete the user entirely, you can access more fields by clicking here:</p>
+            <a href="/admin/auth/user/{{user.id}}/change/" class="btn btn-primary px-2 m-3" style="color:white; height: auto;">Advanced Edit</a></button>
+            <br/>
+            <br/>
+            <b><p>Password reset:</p></b>
+            <a href="/admin/auth/user/{{user.id}}/password/" class="btn btn-primary px-2 m-3 danger" style="color:white; height: auto;" onclick="return confirm('Are you sure you would like to reset the account password?')">Reset password</a></button>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock pageContent%}

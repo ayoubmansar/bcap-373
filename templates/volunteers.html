@@ -53,7 +53,7 @@
                     <i class="material-icons md-48">keyboard_double_arrow_left</i>
                     <i class="material-icons md-48">keyboard_arrow_left</i>
                 {% endif %}&nbsp;
-                <p style="margin-right: 5px; margin-left: 5px;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
+                <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
                 {% if page_obj.has_next %}
                     <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}"><i class="material-icons md-48">keyboard_arrow_right</i></a>
                     <a href="{% relative_url page_obj.paginator.num_pages 'page' request.GET.urlencode %}"><i class="material-icons md-48">keyboard_double_arrow_right</i></a>
@@ -86,6 +86,9 @@
                         </dl>
                     </li>
                 {% endfor %}
+                {% if page_obj.has_next %}
+                    <i>more records on next pages...</i>
+                {% endif %}
             </ul>
         </div>
     </div>

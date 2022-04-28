@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from .forms import SignUpForm, ProfileForm, VolunteerRecordForm, FilterForm, EventForm
+from .forms import SignUpForm, ProfileForm, VolunteerRecordForm, FilterForm, EventForm, UpdateUserForm
 from .models import VolunteerRecord, EventModel
 from django.conf import settings
 # Flash messages
@@ -246,6 +246,30 @@ def add_individual_hours(request):
    return render(request, "add_individual_hours.html", {"form": form, "user": request.user})
 
 @login_required
+def edit_individual_hours(request):
+   if request.user.is_staff:
+      record_id = request.GET.get('id', '')
+      if record_id != '':
+         if request.method == "POST":
+            form = VolunteerRecordForm(request.POST, instance=VolunteerRecord.objects.get(id=record_id))
+            if form.is_valid():
+               # Set user field in the form here
+               record = form.save(commit = False)
+               record.owner = request.user
+               record.save()
+               messages.success(request, 'Hour record updated successfully.')
+               return redirect('/history')
+         else:
+            form = VolunteerRecordForm(instance=VolunteerRecord.objects.get(id=record_id))
+            return render(request, "edit_individual_hours.html", {"form": form, "user": request.user})
+      else:
+         messages.error(request, 'Invalid ID.')
+         return redirect('/history')
+   else:
+      messages.error(request, 'You are not authorized to perform this action.')
+      return redirect('/history')
+
+@login_required
 def events(request):
    if request.user.is_staff:
       records = EventModel.objects.all()
@@ -327,12 +351,53 @@ def update_profile(request):
          profile_form.save()
          return redirect('/profile')
    else:
-        user_form = SignUpForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.profile)
-   return render(request, 'update_profile.html', {
-        'user_form': user_form,
-        'profile_form': profile_form
-    })
+      user_form = SignUpForm(instance=request.user)
+      profile_form = ProfileForm(instance=request.user.profile)
+      return render(request, 'update_profile.html', {
+         'user_form': user_form,
+         'profile_form': profile_form
+      })
+
+@login_required
+def update_user(request):
+   if request.user.is_staff:
+      user_id = request.GET.get('id', '')
+      if user_id != '':
+         if request.method == "POST":
+            user = User.objects.get(id=int(user_id))
+            form = UpdateUserForm(request.POST)
+            if form.is_valid():
+               try:
+                  user.first_name = form.cleaned_data['first_name']
+                  user.last_name = form.cleaned_data['last_name']
+                  user.email = form.cleaned_data['email']
+                  user.profile.phone = int(form.cleaned_data['phone'])
+                  user.profile.birth_date = form.cleaned_data['birth_date']
+                  user.profile.waiver = form.cleaned_data['waiver']
+                  if form.cleaned_data['is_staff'] != '0':
+                     user.is_staff = form.cleaned_data['is_staff'] == '1'
+                  user.save()
+                  messages.success(request, user.get_full_name() + ' was updated successfully.')
+                  return redirect('/view_user/?user=' + user_id)
+               except:
+                  messages.error(request, 'Sorry, an error occurred (2).')
+                  return redirect('/view_user/?user=' + user_id)
+            else:
+               messages.error(request, 'Sorry, an error occurred (1).')
+               return redirect('/view_user/?user=' + user_id)
+         else:
+            user = User.objects.get(id=int(user_id))
+            form = UpdateUserForm()
+            return render(request, 'update_user.html', {
+               'form': form,
+               'user': user
+            })
+      else:
+         messages.error(request, 'Invalid user ID.')
+         return redirect('/volunteers')
+   else:
+      messages.error(request, 'You do not have permission to perform this action.')
+      return render(request, "landing.html")
 
 @login_required
 def update_event(request):
@@ -377,9 +442,9 @@ def delete_volunteer_record(request):
       return redirect ('/history')
    else:
       vol_record = VolunteerRecord.objects.get(id=int(record_id))
-      if vol_record.owner == request.user:
+      if vol_record.owner == request.user or request.user.is_staff:
          vol_record.delete()
-         messages.warning(request, 'Volunteer record delected successfully')
+         messages.warning(request, 'Volunteer record deleted successfully.')
          return redirect ('/history')
       else:
          messages.error(request, 'You do not have permission to perform this action.')
