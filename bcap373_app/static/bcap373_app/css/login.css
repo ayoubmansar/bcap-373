@@ -59,8 +59,14 @@ p {
     margin-bottom: 15px;
 }
 
-.login-results {
-    /* display: block; */
+.non-field-errors {
+    border-radius: 5px;
+    border: 1px solid #eb8585;
+}
+
+.form-error {
+    margin: 5px 5px 5px 5px;
+    color: #c92727;
 }
 
 @media (max-width: 575px) {

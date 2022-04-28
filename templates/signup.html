@@ -26,7 +26,10 @@
                 {{ field }} 
               </div>
               {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
+                <br/>
+                <div class="non-field-errors">
+                  <p class="form-error">{{ error }}</p>
+                </div>
               {% endfor %}
             </div>
           </p>

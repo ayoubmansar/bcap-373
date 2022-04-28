@@ -24,6 +24,15 @@
         </div>
 
         <div class = "login-results">
+            {% if form.non_field_errors %}
+                <div class="non-field-errors">
+                    {% for err in form.non_field_errors %}
+                    <p class="form-error">{{ err }}</p>
+                    {% endfor %}
+                </div>
+                <br/>
+            {% endif %}
+
             <button type="submit" style="background-color: #1890FF" class="btn btn-primary btn-lg btn-block">Submit</button>
 
             <br/>
