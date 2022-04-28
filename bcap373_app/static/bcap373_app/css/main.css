@@ -126,7 +126,7 @@ body {
     color: white;
 }
 
-input, select {
+input, select, textarea {
     padding: 6px;
     font-size: 14px;
     border: 1px solid #24357c;
@@ -142,6 +142,10 @@ input, select {
 
 input[type=number], input[type=date], select {
     height: 30px;
+}
+
+textarea {
+    height: 80px;
 }
 
 .align-fields select, .align-fields input, .align-fields textarea {

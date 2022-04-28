@@ -29,6 +29,7 @@ class EventFilter(django_filters.FilterSet):
     
     def __init__(self, *args, **kwargs):
        super(EventFilter, self).__init__(*args, **kwargs)
+       self.filters['name'].label="Search by event name:"
 
 class HistoryFilter(django_filters.FilterSet):
     def name(queryset, name, value):
@@ -65,8 +66,9 @@ class HistoryFilter(django_filters.FilterSet):
        super(HistoryFilter, self).__init__(*args, **kwargs)
        # self.filters['hours'].label="Hours equal to"
        self.filters['owner'].label=""
-       self.filters['start_date'].label = "Date is after (& including):"
-       self.filters['end_date'].label = "Date is before (& including):"
+       self.filters['start_date'].label = "Date is on or after:"
+       self.filters['end_date'].label = "Date is on or before:"
+       self.filters['name'].label="Search by volunteer:"
 
 
 class VolunteerFilter(django_filters.FilterSet):
@@ -102,3 +104,5 @@ class VolunteerFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
        super(VolunteerFilter, self).__init__(*args, **kwargs)
        self.filters['is_superuser'].label="Is BCAP staff"
+       self.filters['first_name'].label="Search by first name:"
+       self.filters['last_name'].label="Search by last name:"
