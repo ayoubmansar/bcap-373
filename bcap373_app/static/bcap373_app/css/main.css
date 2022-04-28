@@ -219,6 +219,10 @@ dl {
     content: "Supervisor: ";
 }
 
+.data-item .event-name:before {
+    content: "Event name: ";
+}
+
 .data-item .phone:before {
     content: "Phone: ";
 }
@@ -278,6 +282,7 @@ dt {
     .data-item .date:before,
     .data-item .activity:before,
     .data-item .supervisor:before,
+    .data-item .event-name:before,
     .data-item .role:before,
     .data-item .hours:before{
         content: "";

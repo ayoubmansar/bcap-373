@@ -6,18 +6,26 @@ class EventFilter(django_filters.FilterSet):
     def name(queryset, name, value):
         if value is not None:
             records = EventModel.objects.all()
-            ids = [record.id for record in records if value.lower() in str(record.owner).lower()]
+            ids = [record.id for record in records if value.lower() in str(record.name).lower()]
             return queryset.filter(id__in=ids)
         return queryset
     # Excluded (non-default filters)
     name = CharFilter(method=name, label='Event name contains')
-    start_date = DateFilter(field_name="date", lookup_expr='gte')
-    end_date = DateFilter(field_name="date", lookup_expr='lte')
-    # hours
+    # Ordering
+    o = OrderingFilter(
+        fields=(
+            ('name','name'),
+            ('supervisor','supervisor')
+        ),
+        field_labels={
+            'name': 'Event name',
+            'supervisor': 'Supervisor'
+        }
+    )
     class Meta:
         ordering = ['-id']
         model = EventModel
-        fields = []
+        fields = ['event_supervisor']
     
     def __init__(self, *args, **kwargs):
        super(EventFilter, self).__init__(*args, **kwargs)
