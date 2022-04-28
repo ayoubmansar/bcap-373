@@ -99,7 +99,7 @@
                                 <li><a href="/edit_individual_hours/?id={{r.id}}"><i class="material-icons md-48">edit</i></a></li>
                                 <!-- <td><a href="/admin/bcap373_app/volunteerrecord/{{r.id}}/change/">Manage</a></td> -->
                             {% else %}
-                                <li><a href="/delete_volunteer_record/?id={{r.id}}"><i class="material-icons md-48">delete</i></a></li>
+                                <li><a href="/delete_volunteer_record/?id={{r.id}}" onclick="return confirm('Are you sure you would like to delete this volunteer record?')"><i class="material-icons md-48">delete</i></a></li>
                             {% endif %}
                         </dl>
                     </li>
