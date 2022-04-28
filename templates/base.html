@@ -76,16 +76,17 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    {% if user.is_staff %}
-                      <li><a href="/volunteers">Volunteers</a></li>
-                    {% endif %}
-                    <li><a href="/add_individual_hours">Add Volunteer Hours</a></li>
-                    <li class="active"><a href="/history">View Hours</a></li>
-                    {% if user.is_staff %}
-                      <li><a href="/events">Events</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'profile' %}">Profile</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                  <li><h5 class="navbar-user">Welcome back, {{ user.get_full_name }}!</h5></li>
+                  {% if user.is_staff %}
+                    <li {% if request.resolver_match.url_name == 'volunteers' %}class="active"{% endif %}><a href="/volunteers">Volunteers</a></li>
+                  {% endif %}
+                  <li {% if request.resolver_match.url_name == 'add_individual_hours' %}class="active"{% endif %}><a href="/add_individual_hours">Add Volunteer Hours</a></li>
+                  <li {% if request.resolver_match.url_name == 'history' %}class="active"{% endif %}><a href="/history">View Hours</a></li>
+                  {% if user.is_staff %}
+                    <li {% if request.resolver_match.url_name == 'events' or request.resolver_match.url_name == 'update_event' %}class="active"{% endif %}><a href="/events">Events</a></li>
+                  {% endif %}
+                  <li {% if request.resolver_match.url_name == 'profile' or request.resolver_match.url_name == 'update_profile' or request.resolver_match.url_name == 'view_user' %}class="active"{% endif %}><a href="{% url 'profile' %}">Profile</a></li>
+                  <li><a href="{% url 'logout' %}">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -100,14 +101,14 @@
             <ul class="nav nav-pills nav-stacked">
                 <li><h5 class="navbar-user">Welcome back, {{ user.get_full_name }}!</h5></li>
                 {% if user.is_staff %}
-                  <li><a href="/volunteers">Volunteers</a></li>
+                  <li {% if request.resolver_match.url_name == 'volunteers' %}class="active"{% endif %}><a href="/volunteers">Volunteers</a></li>
                 {% endif %}
-                <li><a href="/add_individual_hours">Add Volunteer Hours</a></li>
-                <li class="active"><a href="/history">View Hours</a></li>
+                <li {% if request.resolver_match.url_name == 'add_individual_hours' %}class="active"{% endif %}><a href="/add_individual_hours">Add Volunteer Hours</a></li>
+                <li {% if request.resolver_match.url_name == 'history' %}class="active"{% endif %}><a href="/history">View Hours</a></li>
                 {% if user.is_staff %}
-                  <li><a href="/events">Events</a></li>
+                  <li {% if request.resolver_match.url_name == 'events' or request.resolver_match.url_name == 'update_event' %}class="active"{% endif %}><a href="/events">Events</a></li>
                 {% endif %}
-                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li {% if request.resolver_match.url_name == 'profile' or request.resolver_match.url_name == 'update_profile' or request.resolver_match.url_name == 'view_user' %}class="active"{% endif %}><a href="{% url 'profile' %}">Profile</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul><br>
         </div>
