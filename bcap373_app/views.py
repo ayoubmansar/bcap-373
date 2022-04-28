@@ -132,10 +132,17 @@ def export(request):
       form = FilterForm()
    id = request.GET.get('id','')
    name = ''
-   if id == '' and request.user.is_staff:
-      name = 'for all volunteers'
+   if id == '':
+      if request.user.is_staff:
+         name = 'for all volunteers'
+      else:
+         name = 'for yourself'
    else:
-      name = 'for ' + str(User.objects.get(id=int(id)))
+      if request.user.is_staff:
+         name = 'for ' + str(User.objects.get(id=int(id)))
+      else:
+         messages.error(request, 'You do not have permission to perform this action.')
+         return redirect('/history')
    return render(request, 'export.html', {'form':form, 'name':name})
 
 @login_required
@@ -212,7 +219,8 @@ def new_event(request):
             "event_form" : form,
          })
    else:
-      return render(request, "landing.html")
+      messages.error(request, 'You are not authorized to perform this action.')
+      return redirect('/history')
 
 @login_required
 def home(request):
@@ -260,8 +268,12 @@ def edit_individual_hours(request):
                messages.success(request, 'Hour record updated successfully.')
                return redirect('/history')
          else:
-            form = VolunteerRecordForm(instance=VolunteerRecord.objects.get(id=record_id))
-            return render(request, "edit_individual_hours.html", {"form": form, "user": request.user})
+            try:
+               form = VolunteerRecordForm(instance=VolunteerRecord.objects.get(id=record_id))
+               return render(request, "edit_individual_hours.html", {"form": form, "user": request.user})
+            except:
+               messages.error(request, 'Invalid ID.')
+               return redirect('/history')
       else:
          messages.error(request, 'Invalid ID.')
          return redirect('/history')
@@ -275,14 +287,13 @@ def events(request):
       records = EventModel.objects.all()
       myFilter = EventFilter(request.GET, queryset=records)
       records = myFilter.qs
-      records = list(records)
-      records.sort(key=lambda rec: rec.id, reverse=True)
       paginator = Paginator(records, settings.PAGINATOR_COUNT)
       page_number = request.GET.get('page')
       page_obj = paginator.get_page(page_number)
       return render(request, "events.html", {"page_obj" : page_obj, 'myFilter': myFilter})
    else:
-      return render(request, "landing.html")
+      messages.error(request, 'You do not have permission to access this resource.')
+      return redirect('/history')
 
 @login_required
 def volunteers(request):
@@ -297,7 +308,8 @@ def volunteers(request):
       page_obj = paginator.get_page(page_number)
       return render(request, "volunteers.html", {"page_obj" : page_obj, 'myFilter': myFilter})
    else:
-      return render(request, "landing.html")
+      messages.error(request, 'You do not have permission to access this resource.')
+      return redirect('/history')
 
 @login_required
 def history(request):
@@ -316,11 +328,16 @@ def history(request):
    else:
       # Otherwise, filter by that ID, and ensure user has access
       if int(person_id) == current_user.id or current_user.is_staff:
-         user_obj = User.objects.get(id=person_id)
-         records = VolunteerRecord.objects.filter(owner = user_obj)
-         title = 'Volunteer Hours for ' + str(user_obj)
+         try:
+            user_obj = User.objects.get(id=person_id)
+            records = VolunteerRecord.objects.filter(owner = user_obj)
+            title = 'Volunteer Hours for ' + str(user_obj)
+         except:
+            messages.error(request, 'Invalid user ID.')
+            return redirect('/history')
       else:
-         return render(request, "landing.html")
+         messages.error(request, 'You do not have permission to do that.')
+         return redirect('/history')
    running_total = sum(rec.hours for rec in records)
    
    myFilter = HistoryFilter(request.GET, queryset=records)
@@ -396,8 +413,8 @@ def update_user(request):
          messages.error(request, 'Invalid user ID.')
          return redirect('/volunteers')
    else:
-      messages.error(request, 'You do not have permission to perform this action.')
-      return render(request, "landing.html")
+      messages.error(request, 'You do not have permission to do that.')
+      return redirect('/history')
 
 @login_required
 def update_event(request):
@@ -415,24 +432,30 @@ def update_event(request):
          'event_form': event_form, 'id': event_id
       })
    else:
-      return render(request, "landing.html")
+      messages.error(request, 'An error occurred.')
+      return redirect('/history')
 
 @login_required
 def view_user(request):
    if request.user.is_staff:
-    user_id = request.GET.get('user', '')
-    if user_id == '':
+      user_id = request.GET.get('user', '')
+      if user_id == '':
         user_id = request.user.id
-    else:
+      else:
         user_id = int(user_id)
-    current_user = User.objects.get(id=user_id)
-    profile_form = ProfileForm(instance=request.user.profile)
-    hours = VolunteerRecord.objects.filter(
-            owner = current_user).all().aggregate(
-                    total_hours=Sum('hours'))['total_hours'] or 0
-    return render(request, "profile_view.html", {'hours': hours, 'user': request.user, 'view_user': current_user, 'profile_form': profile_form})
+      try:
+         current_user = User.objects.get(id=user_id)
+         profile_form = ProfileForm(instance=request.user.profile)
+         hours = VolunteerRecord.objects.filter(
+         owner = current_user).all().aggregate(
+                     total_hours=Sum('hours'))['total_hours'] or 0
+         return render(request, "profile_view.html", {'hours': hours, 'user': request.user, 'view_user': current_user, 'profile_form': profile_form})
+      except:
+         messages.error(request, 'Invalid user ID.')
+         return redirect('/history')
    else:
-      return render(request, "landing.html")
+      messages.error(request, 'You do not have permission to do that.')
+      return redirect('/history')
 
 @login_required
 def delete_volunteer_record(request):
@@ -441,22 +464,36 @@ def delete_volunteer_record(request):
       messages.error(request, 'Invalid volunteer record ID')
       return redirect ('/history')
    else:
-      vol_record = VolunteerRecord.objects.get(id=int(record_id))
-      if vol_record.owner == request.user or request.user.is_staff:
-         vol_record.delete()
-         messages.warning(request, 'Volunteer record deleted successfully.')
+      try:
+         vol_record = VolunteerRecord.objects.get(id=int(record_id))
+         if vol_record.owner == request.user or request.user.is_staff:
+            vol_record.delete()
+            messages.warning(request, 'Volunteer record deleted successfully.')
+            return redirect ('/history')
+         else:
+            messages.error(request, 'You do not have permission to perform this action.')
+            return redirect ('/history')
+      except:
+         messages.error(request, 'Invalid ID.')
          return redirect ('/history')
-      else:
-         messages.error(request, 'You do not have permission to perform this action.')
-         return redirect ('/history')
+
 
 @login_required
 def delete_event(request):
-   record_id = request.GET.get('id', '')
-   if record_id != '' and request.user.is_staff:
-      event_record = EventModel.objects.get(id=int(record_id))
-      event_record.delete()
-      messages.warning(request, 'Event delected successfully')
-      return redirect ('/events')
+   if request.user.is_staff:
+      record_id = request.GET.get('id', '')
+      if record_id != '' and request.user.is_staff:
+         try:
+            event_record = EventModel.objects.get(id=int(record_id))
+            event_record.delete()
+            messages.warning(request, 'Event delected successfully')
+            return redirect ('/events')
+         except:
+            messages.error(request, 'Invalid ID.')
+            return redirect ('/events')
+      else:
+         messages.error(request, 'Missing ID.')
+         return redirect ('/events')
    else:
-      return render(request, "landing.html")
+      messages.error(request, 'You do not have permission to perform this action.')
+      return redirect ('/history')

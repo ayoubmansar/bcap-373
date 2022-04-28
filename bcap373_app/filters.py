@@ -15,11 +15,11 @@ class EventFilter(django_filters.FilterSet):
     o = OrderingFilter(
         fields=(
             ('name','name'),
-            ('supervisor','supervisor')
+            ('event_supervisor','event_supervisor')
         ),
         field_labels={
             'name': 'Event name',
-            'supervisor': 'Supervisor'
+            'event_supervisor': 'Event supervisor'
         }
     )
     class Meta:
