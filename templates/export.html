@@ -1,41 +1,56 @@
 {% extends "base.html" %}
 {% load static %}
 {% block pageContent %}
-<div class="center-page center-text">
-    <div class="form-group">
-        <h2 class="form-head">Export CSV
-            {% if id == '' %}
-                for all volunteers
-            {% else %}
-                for volunteer with ID {{id}}
-            {% endif %}
-        </h2>
-        <h3 class="form-head">Filter by start date and end date</h3>
+
+<div class="col-sm custom-grid">
+    <div class="well">
+        <div class="top-header">
+            <div>
+                {% if request.META.HTTP_REFERER %}
+                    <a href="{{request.META.HTTP_REFERER}}">Go back</a>
+                    <br/>
+                    <br/>
+                {% endif %}
+                <div class="tools"></div>  
+            </div>
+        </div>
+        <form method="POST" id="form" style="width: 0%;"> {% csrf_token %}
+            <div class="align-fields-general">
+                <h4>
+                    Export hour records
+                    {{ name }}
+                </h4>
+                </h5>This will generate an excel file with the following rows: </h5>
+                <ol>
+                    <li>Volunteer name</li>
+                    <li>Date of volunteering record</li>
+                    <li>Number of hours</li>
+                    <li>Description (if any)</li>
+                    <li>Supervisor (if any)</li>
+                </ol>
+                {% for field in form %}
+    
+                <p>
+                    <div class="align-labels">
+                        {% if field.field.required %}
+                            {{ field.label_tag }} <i>(Required)</i>
+                        {% else %}
+                            {{ field.label_tag }}
+                        {% endif %} <br/>
+                    </div>
+                    <div class="align-fields">
+                        {{ field }} 
+                    </div>
+                </p>
+
+                {% endfor %}
+            </div>
+            <br/>
+            <div class="align-fields button-holder custom-margins"></div>
+                <button class="btn wide-btn btn-primary" type="submit" form="form">Export to CSV</button>
+            </div>
+        </form>
     </div>
-    <form method="POST" id="form"> {% csrf_token %}
-        <div class="align-fields-general">
-            {% for field in form %}
-            <p>
-                <div class="align-labels">
-                    {{ field.label_tag }} <br/>
-                </div>
-                <div class="align-fields" id='datetimepicker1'>
-                    {{ field }} 
-                </div>
-            </p>
-            {% endfor %}
-        </div>
-        <div class="button-holder custom-margins"></div>
-            <button class="btn wide-btn btn-primary" type="submit" form="form" href="{% url 'export_csv' %}">Export CSV</button>
-        </div>
-    </form>
 </div>
 
-
-
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker1').datetimepicker();
-    });
-</script>
 {% endblock pageContent%}

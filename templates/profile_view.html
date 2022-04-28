@@ -8,9 +8,11 @@
         
         <div class="center-page center-text">
             <div class="form-group"> 
-                <a href="{{request.META.HTTP_REFERER}}">Go back</a>
-                <br/>
-                <br/>
+                {% if request.META.HTTP_REFERER %}
+                    <a href="{{request.META.HTTP_REFERER}}">Go back</a>
+                    <br/>
+                    <br/>
+                {% endif %}
                 <h4>Profile of <b>{{ view_user }}</b> (User ID {{ view_user.id}})</h4>
                 <div class="tools"></div>        
                 <table class="profile-table">

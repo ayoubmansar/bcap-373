@@ -41,21 +41,25 @@
                     </div>
                 </div>
                 <div>
-                    <a href="/export/{% if id != '' %}?id={{id}}{% endif%}"><button type="button" class="btn btn-outline-primary">Export</button></a>
+                    <a href="/export_contact"><button type="button" class="btn btn-outline-primary">Export contacts</button></a>
                 </div>
             </div>
 
             <div class="pagination">
-                <p style="margin-right: 20px;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
                 {% if page_obj.has_previous %}
+                    <a href="{% relative_url 1 'page' request.GET.urlencode %}"><i class="material-icons md-48">keyboard_double_arrow_left</i></a>
                     <a href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}"><i class="material-icons md-48">keyboard_arrow_left</i></a>
                 {% else %}
+                    <i class="material-icons md-48">keyboard_double_arrow_left</i>
                     <i class="material-icons md-48">keyboard_arrow_left</i>
-                {% endif %}
+                {% endif %}&nbsp;
+                <p style="margin-right: 5px; margin-left: 5px;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
                 {% if page_obj.has_next %}
                     <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}"><i class="material-icons md-48">keyboard_arrow_right</i></a>
+                    <a href="{% relative_url page_obj.paginator.num_pages 'page' request.GET.urlencode %}"><i class="material-icons md-48">keyboard_double_arrow_right</i></a>
                 {% else %}
                     <i class="material-icons md-48">keyboard_arrow_right</i>
+                    <i class="material-icons md-48">keyboard_double_arrow_right</i>
                 {% endif %}
             </div>
         </div>

@@ -1,14 +1,13 @@
 {% load static %}
 {% block pageHeader %} 
-    <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/login.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 {% endblock pageHeader%}
 
 {% block pageContent %}
 <body>
-  <div class="center-page center-text">
-    <img class="inverted" src="{% static 'bcap373_app/img/bcap373_logo.png' %}" width="214px" height="142px">
-    <h2 class="main-text m-2">Sign Up Below</h2>
+  <div class="small-frame">
+    <img alt="logo" class="logo" src = "{% static 'bcap373_app/img/bcap373_logo.png' %}">
     <form method="post">
       {% csrf_token %}
       <div class="align-fields-general">
@@ -39,9 +38,13 @@
       </div>
     </form>
     <p class="center-text">
-        Already have an account?<a class="a-btn px-1 m-1" href="/login/" >Sign in.</a>
+        Already have an account?<a class="a-btn px-1 m-1" href="/login/" > Sign in.</a>
       </p>
   </div>
 
+  <script>
+    document.getElementById('id_phone').type = 'number';
+    document.getElementById('id_phone').min = '0';
+  </script>
 </body>
 {% endblock %}

@@ -82,7 +82,8 @@ def generate_certificate(request):
       buffer.seek(0)
       return FileResponse(buffer, as_attachment=False, filename='certificate.pdf')
    else:
-      return render(request, "landing.html")
+      messages.error(request, 'You do not have permission to perform this action.')
+      return redirect ('/history')
 
 #Export to csv function
 def export_csv(request, start_date, end_date):
@@ -129,7 +130,13 @@ def export(request):
          return response
    else:
       form = FilterForm()
-   return render(request, 'export.html', {'form':form, 'id':request.GET.get('id','')})
+   id = request.GET.get('id','')
+   name = ''
+   if id == '':
+      name = 'for all volunteers'
+   else:
+      name = 'for ' + str(User.objects.get(id=int(id)))
+   return render(request, 'export.html', {'form':form, 'name':name})
 
 @login_required
 def export_contact(request):
@@ -180,6 +187,7 @@ def signup(request):
          raw_password = form.cleaned_data.get('password1')
          user = authenticate(username=user.username, password=raw_password)
          login(request, user)
+         messages.success(request, 'Welcome, ' + (user.get_full_name()).title() + ', to the BCAP Volunteer System!')
          return redirect('/add_individual_hours')
    else:
       form = SignUpForm()

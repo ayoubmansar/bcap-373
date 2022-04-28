@@ -1,24 +1,37 @@
 {% load static %}
 {% block pageHeader %} 
-    <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/login.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 {% endblock pageHeader%}
 
 {% block pageContent %}
-<div class="center-page center-text">
-    <img class="inverted" src="{% static 'bcap373_app/img/bcap373_logo.png' %}" width="214px" height="142px">
-    <h2 class="main-text custom-margins">Please Sign In</h2>
-
+<div class="small-frame">
+    <img alt="logo" class="logo" src = "{% static 'bcap373_app/img/bcap373_logo.png' %}">
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <div class="button-holder custom-margins">
-            <button class="btn btn-primary px-2 m-3" type="submit">Log In</button>
-            <a class="btn btn-primary px-2 m-3" href="/signup/" >Sign Up</a>
+        <div style="color: red; margin-botom: 10px;">
+        </div>
+
+        <input class="login-field" placeholder="Username"
+            style="border-style: solid; border-width: 1px; border-color: #D9D9D9; margin-bottom: 30px;"
+            autofocus="autofocus" autocomplete="username" name="username" id="id_username" />
+
+        <input class="login-field" placeholder="Password"
+            style="border-style: solid; border-width: 1px; border-color: #D9D9D9;" autocomplete="current-password"
+            type="password" name="password" id="id_password" />
+
+        <div class = "secondary-options">
+        </div>
+
+        <div class = "login-results">
+            <button type="submit" style="background-color: #1890FF" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+            <br/>
+            <div style="display:flex;">
+                <p>or&nbsp</p>
+                <a href="/signup">register now!</a><br />
+            </div>
         </div>
     </form>
 </div>
-<footer>
-    <a class="medium-text" target="_blank" href="https://bcapgh.org/">BCAP Website</a>
-</footer>
 {% endblock %}

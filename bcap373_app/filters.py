@@ -94,7 +94,7 @@ class VolunteerFilter(django_filters.FilterSet):
     )
     # Meta class
     class Meta:
-        ordering = ['-id'] # To avoid pagination issues
+        ordering = ['id'] # To avoid pagination issues
         model = User
         fields = ['username','last_login','is_superuser','first_name','last_name','email','date_joined']
         exclude = ['last_login','date_joined', 'first_name', 'last_name'] # this overrides anything in 'fields'

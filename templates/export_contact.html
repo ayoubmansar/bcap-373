@@ -2,37 +2,57 @@
 {% load static %}
 {% block pageContent %}
 
-<div class="center-page center-text">
-    <div class="form-group">
-        <h2 class="form-head">Export All Volunteers</h2>
-        <h4 class="form-head"><i>(full name, e-mail, total hours)</i></h4>
-        <br/>
-        <h3 class="form-head">Filter by Account Creation Date Period</h3>
-    </div>
-    <form method="POST" id="form"> {% csrf_token %}
-        <div class="align-fields-general">
-            {% for field in form %}
-            <p>
-                <div class="align-labels">
-                    {{ field.label_tag }} <br/>
-                </div>
-                <div class="align-fields" id='datetimepicker1'>
-                    {{ field }} 
-                </div>
-            </p>
-            {% endfor %}
+<div class="col-sm custom-grid">
+    <div class="well">
+        <div class="top-header">
+            <div>
+                {% if request.META.HTTP_REFERER %}
+                    <a href="{{request.META.HTTP_REFERER}}">Go back</a>
+                    <br/>
+                    <br/>
+                {% endif %}
+                <div class="tools"></div>  
+            </div>
         </div>
-        <div class="button-holder custom-margins"></div>
+        <form method="POST" id="form" style="width: 0%;"> {% csrf_token %}
+            <div class="align-fields-general">
+                <h4>
+                    Export all volunteer account information
+                    {{ name }}
+                </h4>
+                </h5>This will generate an excel file with the following rows: </h5>
+                <ol>
+                    <li>Volunteer name</li>
+                    <li>Email</li>
+                    <li>Number of hours in the system</li>
+                </ol>
+                <i>The date picker will only include accounts that were created after the
+                start date and before the end date. You can find the date a user's account
+                was created in the system by navigating to their profile and looking at the
+                date created row.</i>
+                {% for field in form %}
+    
+                <p>
+                    <div class="align-labels">
+                        {% if field.field.required %}
+                            {{ field.label_tag }} <i>(Required)</i>
+                        {% else %}
+                            {{ field.label_tag }}
+                        {% endif %} <br/>
+                    </div>
+                    <div class="align-fields">
+                        {{ field }} 
+                    </div>
+                </p>
+
+                {% endfor %}
+            </div>
+            <br/>
+            <div class="align-fields button-holder custom-margins"></div>
             <button class="btn wide-btn btn-primary" type="submit" form="form" href="{% url 'export_csv' %}">Export CSV</button>
-        </div>
-    </form>
+            </div>
+        </form>
+    </div>
 </div>
 
-
-
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker1').datetimepicker();
-    });
-</script>
 {% endblock pageContent%}
