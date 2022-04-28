@@ -132,7 +132,7 @@ def export(request):
       form = FilterForm()
    id = request.GET.get('id','')
    name = ''
-   if id == '':
+   if id == '' and request.user.is_staff:
       name = 'for all volunteers'
    else:
       name = 'for ' + str(User.objects.get(id=int(id)))
