@@ -395,7 +395,8 @@ def update_user(request):
                   user.first_name = form.cleaned_data['first_name']
                   user.last_name = form.cleaned_data['last_name']
                   user.email = form.cleaned_data['email']
-                  user.profile.phone = int(form.cleaned_data['phone'])
+                  if form.cleaned_data['phone'] != '':
+                     user.profile.phone = int(form.cleaned_data['phone'])
                   user.profile.birth_date = form.cleaned_data['birth_date']
                   user.profile.waiver = form.cleaned_data['waiver']
                   if form.cleaned_data['is_staff'] != '0':
@@ -403,8 +404,9 @@ def update_user(request):
                   user.save()
                   messages.success(request, user.get_full_name() + ' was updated successfully.')
                   return redirect('/view_user/?user=' + user_id)
-               except:
-                  messages.error(request, 'Sorry, an error occurred (2).')
+               except Exception as e:
+                  exception_msg = str(e)
+                  messages.error(request, 'Sorry, an error occurred (2: ' + exception_msg + ').')
                   return redirect('/view_user/?user=' + user_id)
             else:
                messages.error(request, 'Sorry, an error occurred (1).')
