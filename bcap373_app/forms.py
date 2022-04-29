@@ -63,10 +63,10 @@ class VolunteerRecordForm(forms.ModelForm):
     class Meta:
         model = VolunteerRecord
         fields = ('activity', 'hours', 'date', 'supervisor', 'description')
-        hours = forms.FloatField(min_value=0)
+        hours = forms.FloatField(min_value=0,max_value=100)
         widgets = {
             'date' : DateInput(attrs={'id': 'dateTimePicker'}),
-            'hours' : NumberInput(attrs={'id': 'form_hours', 'step': "0.25", 'min': 0.25}),
+            'hours' : NumberInput(attrs={'id': 'form_hours', 'step': "0.25", 'min': 0.25, 'max':100}),
             'description' : forms.Textarea(attrs={'id': 'form_desc','rows':4, 'cols':20})
         }
 
