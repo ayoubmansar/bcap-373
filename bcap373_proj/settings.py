@@ -12,13 +12,13 @@ SECRET_KEY = 'YOU_MUST_CHANGE_THIS'
 DEBUG = False # This should always be False in production!
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bcap373-vht.herokuapp.com']
 
-DEFAULT_FROM_EMAIL = ''
-SERVER_EMAIL = ''
-
+DEFAULT_FROM_EMAIL = 'bcap67373@gmail.com'
+SERVER_EMAIL = 'bcap67373@gmail.com'
+SEND_EMAIL = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') or 'bcap67373@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') or 'password'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -172,8 +172,8 @@ LOGGING = {
 }
 
 # # DJANGO-HEROKU:
-import django_heroku
-django_heroku.settings(locals(), logging=False)
+# import django_heroku
+# django_heroku.settings(locals(), logging=False)
 
 
 # Heroku: Update database configuration from $DATABASE_URL.

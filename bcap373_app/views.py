@@ -44,6 +44,8 @@ logger = logging.getLogger('ex_logger')
 logger.info("core.views logger")  # should work 
 
 #Certificate generation
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 @login_required
 def generate_certificate(request):
    person_id = request.GET.get('id','')
@@ -51,37 +53,32 @@ def generate_certificate(request):
       # Get the user
       current_user = User.objects.get(id=person_id)
       records = VolunteerRecord.objects.filter(owner = current_user)
-      running_total = sum(rec.hours for rec in records)
+      running_total = round(sum(rec.hours for rec in records))
 
       # Create a file-like buffer to receive PDF data.
       buffer = io.BytesIO()
       p = canvas.Canvas(buffer, pagesize=landscape(letter))
+      print(landscape(letter))
       p.setTitle('Certificate for ' + current_user.username)
+      # Fonts
+      font_url = request.build_absolute_uri(staticfiles_storage.url('bcap373_app/css/Cerebri.ttf'))
+      pdfmetrics.registerFont(TTFont('Cerebri', font_url))
       # Design
-      p.setFillColorRGB(0.984, 0.960, 0.756) # https://doc.instantreality.org/tools/color_calculator/
-      p.rect(0,0,3000,3000,fill=1)
-      p.setFillColorRGB(0,0,0)
-      p.setFont('Helvetica', 48, leading=None)
-      p.drawCentredString(415, 500, "Volunteer Certificate")
-      p.setFont('Helvetica', 24, leading=None)
-      p.drawCentredString(415,450,"This certificate is presented to:")
-      p.setFont('Helvetica-Bold', 34, leading=None)
-      p.drawCentredString(415, 395, str(current_user))
-      p.setFont('Helvetica', 20, leading=None)
-      p.drawCentredString(415, 350, "for volunteering")
-      p.setFont('Helvetica-Bold', 30, leading=None)
-      p.drawCentredString(415, 300, str(running_total) + ' hours')
-      p.setFont('Helvetica', 20, leading=None)
-      p.drawCentredString(415, 250, "at the Bhutanese Community Association of Pittsburgh")
-      seal_url = request.build_absolute_uri(staticfiles_storage.url('bcap373_app/img/seal.png'))
-      seal = ImageReader(seal_url)
-      p.drawImage(seal, 270, 100, width=100, height=100, mask='auto')
-      logo_url = request.build_absolute_uri(staticfiles_storage.url('bcap373_app/img/bcap373_logo.png'))
-      logo = ImageReader(logo_url)
-      p.drawImage(logo, 400, 90, width=180, height=120, mask='auto')
-      p.setFont('Helvetica-Oblique', 17, leading=None)
+      background_image = request.build_absolute_uri(staticfiles_storage.url('bcap373_app/img/certificate-back.png'))
+      bg = ImageReader(background_image)
+      p.drawImage(bg, 0, 0, width=792, height=620, mask='auto')
+      p.setFont('Cerebri', 50, leading=None)
+      p.setFillColorRGB(0.14,0.40,0.79)
+      p.drawCentredString(415, 313, str(current_user))
+      if running_total > 10000:
+         p.setFont('Cerebri', 11, leading=None)
+      else:
+         p.setFont('Cerebri', 13, leading=None)
+      p.drawCentredString(208, 251, str(running_total))
+      
+      p.setFont('Cerebri', 10, leading=None)
       tz = timezone('US/Eastern')
-      p.drawCentredString(420, 40, 'Valid as of ' + datetime.now(tz).strftime("%m/%d/%Y %H:%M:%S"))
+      p.drawCentredString(400, 200, 'Valid as of ' + datetime.now(tz).strftime("%m/%d/%Y %H:%M:%S") + ' UTC')
       # Display
       p.showPage()
       p.save()
@@ -202,6 +199,20 @@ def signup(request):
          user = authenticate(username=user.username, password=raw_password)
          login(request, user)
          messages.success(request, 'Welcome, ' + (user.get_full_name()).title() + ', to the BCAP Volunteer System!')
+
+         # As per Khara's request, send an email notifying new user signup
+         if setting.SEND_EMAIL:
+            try:
+               tz = timezone('US/Eastern')
+               timestamp = datetime.now(tz).strftime("%m/%d/%Y %H:%M:%S") + ' UTC'
+               subject = 'New User Registered'
+               html_message = render_to_string('email_template.html', {'name': (user.get_full_name()).title(), 'timestamp': timestamp}) 
+               plain_message = strip_tags(html_message)
+               from_email = settings.DEFAULT_FROM_EMAIL
+               to = 'amansar@andrew.cmu.edu'
+               mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+            except:
+               print('Failed to send email')
          return redirect('/add_individual_hours')
       else:
          messages.error(request, 'Invalid form submission with signup. Try again.')
