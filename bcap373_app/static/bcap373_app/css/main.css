@@ -10,6 +10,10 @@ body {
     margin-top:40px;
 }
 
+.navbar-brand {
+    width: 63px;
+}
+
 .logo1 img, .nav-bar-image {
     width: 90%;
     height: 100%;
@@ -192,9 +196,10 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    flex-wrap: wrap;
     border-bottom: 1px solid #e0e4e8;
     margin-bottom: 16px;
+    padding-top: 5px;
 }
 
 .secondary-button {
