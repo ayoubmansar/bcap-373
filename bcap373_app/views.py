@@ -317,7 +317,7 @@ def events(request):
 @login_required
 def volunteers(request):
    if request.user.is_staff:
-      records = User.objects.all()
+      records = User.objects.all().order_by('-date_joined')
 
       myFilter = VolunteerFilter(request.GET, queryset=records)
       records = myFilter.qs

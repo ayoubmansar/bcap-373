@@ -4,10 +4,15 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Sum
+from django.utils import timezone
 
 class EventModel(models.Model):
 	name = models.CharField(max_length=256, blank=False)
 	event_supervisor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'is_staff': True}, related_name='event_supervisor')
+	created_at = models.DateTimeField(auto_now_add=True)
+	class Meta:
+		ordering = ["-created_at"]
+
 	def __str__(self):
 		return self.name
 	
@@ -27,6 +32,9 @@ class VolunteerRecord(models.Model):
 	supervisor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, limit_choices_to={'is_staff': True}, related_name='supervisor')
 	description = models.CharField(max_length=1000, blank=True, default='')
 	owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+
+	class Meta:
+		ordering = ["-date"]
 
 	def __str__(self):
 		return "Owner: {}, Date: {}, Activity: {}".format(self.owner, self.date, self.activity)

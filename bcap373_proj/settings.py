@@ -172,8 +172,8 @@ LOGGING = {
 }
 
 # # DJANGO-HEROKU:
-import django_heroku
-django_heroku.settings(locals(), logging=False)
+# import django_heroku
+# django_heroku.settings(locals(), logging=False)
 
 
 # Heroku: Update database configuration from $DATABASE_URL.

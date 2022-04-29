@@ -15,11 +15,13 @@ class EventFilter(django_filters.FilterSet):
     o = OrderingFilter(
         fields=(
             ('name','name'),
-            ('event_supervisor','event_supervisor')
+            ('event_supervisor','event_supervisor'),
+            ('created_at','created_at')
         ),
         field_labels={
             'name': 'Event name',
-            'event_supervisor': 'Event supervisor'
+            'event_supervisor': 'Event supervisor',
+            'created_at': 'Date event was created in system'
         }
     )
     class Meta:
@@ -58,13 +60,11 @@ class HistoryFilter(django_filters.FilterSet):
         }
     )
     class Meta:
-        ordering = ['-id']
         model = VolunteerRecord
         fields = ['activity','supervisor','owner']
     
     def __init__(self, *args, **kwargs):
        super(HistoryFilter, self).__init__(*args, **kwargs)
-       # self.filters['hours'].label="Hours equal to"
        self.filters['owner'].label=""
        self.filters['start_date'].label = "Date is on or after:"
        self.filters['end_date'].label = "Date is on or before:"
@@ -87,16 +87,17 @@ class VolunteerFilter(django_filters.FilterSet):
     o = OrderingFilter(
         fields=(
             ('first_name','first_name'),
-            ('last_name','last_name')
+            ('last_name','last_name'),
+            ('date_joined','date_joined')
         ),
         field_labels={
             'first_name': 'First name',
-            'last_name': 'Last name'
+            'last_name': 'Last name',
+            'date_joined': 'Date account created'
         }
     )
     # Meta class
     class Meta:
-        ordering = ['id'] # To avoid pagination issues
         model = User
         fields = ['username','last_login','is_superuser','first_name','last_name','email','date_joined']
         exclude = ['last_login','date_joined', 'first_name', 'last_name'] # this overrides anything in 'fields'
