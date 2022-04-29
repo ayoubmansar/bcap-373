@@ -203,6 +203,9 @@ def signup(request):
          login(request, user)
          messages.success(request, 'Welcome, ' + (user.get_full_name()).title() + ', to the BCAP Volunteer System!')
          return redirect('/add_individual_hours')
+      else:
+         messages.error(request, 'Invalid form submission with signup. Try again.')
+         return redirect('/signup')
    else:
       form = SignUpForm()
    return render(request, "signup.html", {
@@ -219,6 +222,9 @@ def new_event(request):
             event.refresh_from_db() 
             event.save()
             messages.success(request, 'Event created successfully')
+            return redirect('/events')
+         else:
+            messages.error(request, 'Invalid form submission.')
             return redirect('/events')
       else:
          form = EventForm()
@@ -242,19 +248,22 @@ def add_individual_hours(request):
    if request.method == "POST":
       form = VolunteerRecordForm(request.POST)
       if form.is_valid():
-            # Set user field in the form here
-            record = form.save(commit = False)
-            record.owner = request.user
-            record.save()
-            #TODO: Ayoub: Disabled email sending for now
-            #subject = 'SLO Botanical Garden - Tracking Form Receipt'
-            #html_message = render_to_string('email_template.html', {'form': form.cleaned_data}) 
-            #plain_message = strip_tags(html_message)
-            #from_email = settings.DEFAULT_FROM_EMAIL
-            #to = request.user.email
-            #mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
-            messages.success(request, 'Hours added successfully')
-            return redirect('/history')
+         # Set user field in the form here
+         record = form.save(commit = False)
+         record.owner = request.user
+         record.save()
+         #TODO: Ayoub: Disabled email sending for now
+         #subject = 'SLO Botanical Garden - Tracking Form Receipt'
+         #html_message = render_to_string('email_template.html', {'form': form.cleaned_data}) 
+         #plain_message = strip_tags(html_message)
+         #from_email = settings.DEFAULT_FROM_EMAIL
+         #to = request.user.email
+         #mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+         messages.success(request, 'Hours added successfully')
+         return redirect('/history')
+      else:
+         messages.success(request, 'Invalid form submission.')
+         return redirect('/history')
    else:
       form = VolunteerRecordForm()
 
@@ -273,6 +282,9 @@ def edit_individual_hours(request):
                record.owner = request.user
                record.save()
                messages.success(request, 'Hour record updated successfully.')
+               return redirect('/history')
+            else:
+               messages.error(request, 'Invalid form submission.')
                return redirect('/history')
          else:
             try:
@@ -374,6 +386,9 @@ def update_profile(request):
          user_form.save()
          profile_form.save()
          return redirect('/profile')
+      else:
+         messages.error(request, 'Invalid form submission (are you sure your passwords match?).')
+         return redirect('/update_profile')
    else:
       user_form = SignUpForm(instance=request.user)
       profile_form = ProfileForm(instance=request.user.profile)
@@ -434,6 +449,9 @@ def update_event(request):
          if event_form.is_valid():
             event_form.save()
             messages.success(request, 'Event updated successfully')
+            return redirect('/events')
+         else:
+            messages.error(request, 'Invalid form submission')
             return redirect('/events')
       else:
          event_form = EventForm(instance=EventModel.objects.filter(id=int(event_id)).first())

@@ -25,7 +25,7 @@
                               <img src="{% static 'bcap373_app/img/bcap_logo.svg' %}" alt="logo" class="logo">
                           </div>
                           <p class="login-card-description">Sign up</p>
-
+                          {% include 'messages.html' %}
                           <form method="post">
                             {% csrf_token %}
                             <div class="align-fields-general">
