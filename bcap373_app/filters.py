@@ -105,5 +105,7 @@ class VolunteerFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
        super(VolunteerFilter, self).__init__(*args, **kwargs)
        self.filters['is_superuser'].label="Is BCAP staff"
+       self.filters['username'].label="Search by username:"
+       self.filters['email'].label="Search by email:"
        self.filters['first_name'].label="Search by first name:"
        self.filters['last_name'].label="Search by last name:"
