@@ -431,7 +431,7 @@ def update_user(request):
             form = UpdateUserForm()
             return render(request, 'update_user.html', {
                'form': form,
-               'user': user
+               'update_user': user
             })
       else:
          messages.error(request, 'Invalid user ID.')

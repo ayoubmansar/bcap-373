@@ -6,8 +6,8 @@
     <div class="well">
       <div class="top-header">
          <div>
-               <a href="/view_user/?user={{user.id}}">Back to profile</a>
-               <h4>Updating <b>{{user}}</b></h4>
+               <a href="/view_user/?user={{update_user.id}}">Back to profile</a>
+               <h4>Updating <b>{{update_user}}</b></h4>
                <div class="tools"></div>  
          </div>
       </div>
@@ -15,7 +15,7 @@
          <div class="update_user_child1">
             <h4 style="display: inline-block;">Basic properties</h4>
             <p class="tooltip-circle">?<span class="tooltip-text">Please do NOT modify the contents of any boxes that you do NOT wish to change.</span></p>
-            <p><b>Username:</b> {{ user.username }}</p>
+            <p><b>Username:</b> {{ update_user.username }}</p>
             <script>
                function validate(form) {
                   if (document.getElementById('id_is_staff').value == '1') {
@@ -34,7 +34,7 @@
                            {{ form.first_name.label_tag }} <br/>
                         </div>
                         <div class="align-labels">
-                           <input type="text" name="first_name" maxlength="30" id="id_first_name" value="{{user.first_name}}">
+                           <input type="text" name="first_name" maxlength="30" id="id_first_name" value="{{update_user.first_name}}">
                         </div>
                         {% for error in form.first_name.errors %}
                            <p style="color: red">{{ error }}</p>
@@ -45,7 +45,7 @@
                            {{ form.last_name.label_tag }} <br/>
                         </div>
                         <div class="align-labels">
-                           <input type="text" name="last_name" maxlength="30" id="id_last_name" value="{{user.last_name}}">
+                           <input type="text" name="last_name" maxlength="30" id="id_last_name" value="{{update_user.last_name}}">
                         </div>
                         {% for error in form.last_name.errors %}
                            <p style="color: red">{{ error }}</p>
@@ -56,7 +56,7 @@
                            {{ form.email.label_tag }} <br/>
                         </div>
                         <div class="align-labels">
-                           <input type="text" name="email" maxlength="30" id="id_email" value="{{user.email}}">
+                           <input type="text" name="email" maxlength="30" id="id_email" value="{{update_user.email}}">
                         </div>
                         {% for error in form.email.errors %}
                            <p style="color: red">{{ error }}</p>
@@ -67,7 +67,7 @@
                            {{ form.phone.label_tag }} <br/>
                         </div>
                         <div class="align-labels">
-                           <input type="number" min="0" name="phone" id="id_phone" value="{{user.profile.phone}}">
+                           <input type="number" min="0" name="phone" id="id_phone" value="{{update_user.profile.phone}}">
                         </div>
                         {% for error in form.phone.errors %}
                            <p style="color: red">{{ error }}</p>
@@ -78,7 +78,7 @@
                            {{ form.birth_date.label_tag }} <br/>
                         </div>
                         <div class="align-labels">
-                           <input type="date" name="birth_date" id="dateTimePicker" value="{{user.profile.birth_date|date:'Y-m-d'}}">
+                           <input type="date" name="birth_date" id="dateTimePicker" value="{{update_user.profile.birth_date|date:'Y-m-d'}}">
                         </div>
                         {% for error in form.birth_date.errors %}
                            <p style="color: red">{{ error }}</p>
@@ -89,7 +89,7 @@
                            {{ form.waiver.label_tag }} <p class="tooltip-circle">?<span class="tooltip-text">An optional field. Leave blank if no waiver information is on file. Otherwise, put the link to the document here. Only admins can see this field (users cannot see this when viewing their own profiles).</span></p>
                         </div>
                         <div class="align-labels">
-                           <input type="text" name="waiver" maxlength="300" id="id_waiver" value="{{user.profile.waiver}}">
+                           <input type="text" name="waiver" maxlength="300" id="id_waiver" value="{{update_user.profile.waiver}}">
                         </div>
                         {% for error in form.waiver.errors %}
                            <p style="color: red">{{ error }}</p>
@@ -120,11 +120,11 @@
             <b>Sophisticated changes:</b>
             <br/>
             <p>If you need to make more sophisticated changes, or to delete the user entirely, you can access more fields by clicking here:</p>
-            <a href="/admin/auth/user/{{user.id}}/change/" class="btn btn-primary px-2 m-3" style="color:white; height: auto;">Advanced Edit</a></button>
+            <a href="/admin/auth/user/{{update_user.id}}/change/" class="btn btn-primary px-2 m-3" style="color:white; height: auto;">Advanced Edit</a></button>
             <br/>
             <br/>
             <b><p>Password reset:</p></b>
-            <a href="/admin/auth/user/{{user.id}}/password/" class="btn btn-primary px-2 m-3 danger" style="color:white; height: auto;" onclick="return confirm('Are you sure you would like to reset the account password?')">Reset password</a></button>
+            <a href="/admin/auth/user/{{update_user.id}}/password/" class="btn btn-primary px-2 m-3 danger" style="color:white; height: auto;" onclick="return confirm('Are you sure you would like to reset the account password?')">Reset password</a></button>
          </div>
       </div>
    </div>
