@@ -7,13 +7,13 @@ from django.contrib.messages import constants as messages
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-SECRET_KEY = 'test'
+# This SECRET_KEY must be changed!
+SECRET_KEY = 'YOU_MUST_CHANGE_THIS'
 DEBUG = False # This should always be False in production!
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bcap373-vht.herokuapp.com']
 
-DEFAULT_FROM_EMAIL = 'no-reply@Hack4Impact.com'
-SERVER_EMAIL = 'no-reply@Hack4Impact.com'
+DEFAULT_FROM_EMAIL = ''
+SERVER_EMAIL = ''
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -172,8 +172,8 @@ LOGGING = {
 }
 
 # # DJANGO-HEROKU:
-# import django_heroku
-# django_heroku.settings(locals(), logging=False)
+import django_heroku
+django_heroku.settings(locals(), logging=False)
 
 
 # Heroku: Update database configuration from $DATABASE_URL.
