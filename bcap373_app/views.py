@@ -37,6 +37,12 @@ from django.core import mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+# Logging
+from django.http import HttpResponse
+import logging
+logger = logging.getLogger('ex_logger')
+logger.info("core.views logger")  # should work 
+
 #Certificate generation
 @login_required
 def generate_certificate(request):
