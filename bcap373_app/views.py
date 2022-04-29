@@ -201,7 +201,7 @@ def signup(request):
          messages.success(request, 'Welcome, ' + (user.get_full_name()).title() + ', to the BCAP Volunteer System!')
 
          # As per Khara's request, send an email notifying new user signup
-         if setting.SEND_EMAIL:
+         if settings.SEND_EMAIL:
             try:
                tz = timezone('US/Eastern')
                timestamp = datetime.now(tz).strftime("%m/%d/%Y %H:%M:%S") + ' UTC'
