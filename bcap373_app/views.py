@@ -388,7 +388,7 @@ def update_profile(request):
          return redirect('/profile')
       else:
          messages.error(request, 'Invalid form submission (are you sure your passwords match?).')
-         return redirect('/update_profile')
+         return redirect('/update-profile')
    else:
       user_form = SignUpForm(instance=request.user)
       profile_form = ProfileForm(instance=request.user.profile)
