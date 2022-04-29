@@ -1,8 +1,10 @@
-*{
+* {
     box-sizing: border-box;
 }
+
 body {
-    background-color: #edeaea;
+    font-family: "Karla", sans-serif;
+    background-color: #d0d0ce;
 }
 .logo1 {
     margin-top:40px;
@@ -16,6 +18,10 @@ body {
 .profile-table td {
     padding-right: 30px;
     padding-bottom: 10px;
+}
+
+.pad-me {
+    margin-bottom: 20px;
 }
 
 .spacingadj {
@@ -45,6 +51,23 @@ body {
 .navbar-user {
     text-align: center;
     font-weight: bold;
+    color: white;
+}
+
+ul.nav.nav-pills.nav-stacked a {
+    /* Override the navbar stylesheet */
+    color: #d1d1d1;
+}
+
+ul.nav.nav-pills.nav-stacked li>a:hover {
+    /* Override the navbar stylesheet */
+    background-color: #767676;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    /* Override the navbar stylesheet */
+    background-color: #1890FF;
+    color: white;
 }
 
 .nav-options {
@@ -53,7 +76,7 @@ body {
     display: flex !important;
 }
 .btn {
-    border: 1px solid #5678FF
+    border: 1px solid #1890ff;
 }
 
 .left-menu {
@@ -74,7 +97,7 @@ body {
 }
 
 .btn-primary {
-    background-color: #5678FF;
+    background-color: #1890FF;
     height: 44px;
 }
 .home-right {
@@ -85,7 +108,7 @@ body {
 }
 
 .sidenav {
-    background-color: #e2e8ff;
+    background-color: #222222;
     height: 100%;
     width: 200px !important;
     position: fixed;
@@ -153,7 +176,7 @@ textarea {
 }
 
 .align-fields-general {
-    width: 180px;
+    width: 220px;
     margin: auto;
 }
 
@@ -315,4 +338,81 @@ dt {
         content: "";
     }
 
+}
+
+.required-circle-inner {
+    position: relative;
+    background: #898989;
+    color: #f7f7f7;
+    font-size: 10px;
+    border-radius: 1em;
+    padding: 0 0.5em;
+}
+
+/* Help tips */
+.tooltip-circle, .required-circle {
+    margin-left: 3px;
+    display: inline-block;
+}
+
+[data-tooltip], .tooltip-circle {
+    position: relative;
+    cursor: pointer;
+    background: #0870d1;
+    color: white;
+    font-size: 12px;
+    border-radius: 1em;
+    padding: 0 0.5em;
+}
+/*   
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    opacity: 0; 
+    width: 150px;
+    transform:translateX(-50%);
+    bottom: 25px;
+    padding: 0.5em;
+    background-color: black;
+    border-radius: 0.25em;
+    color: white;
+    text-align: center;
+    transition:0.2s;
+}
+  
+[data-tooltip]:after {
+    content: "";
+    position: absolute;
+    opacity: 0; 
+    bottom: 15px;  
+    margin-left: -5px; 
+    border: 5px solid black;
+    border-color: black transparent transparent transparent;
+    transition:0.2s;
+}
+  
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    opacity: 1; 
+} */
+
+.tooltip-circle .tooltip-text {
+    visibility: hidden;
+    width: 160px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 8px 8px 5px;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+  
+.tooltip-circle:hover .tooltip-text {
+visibility: visible;
 }

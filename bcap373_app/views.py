@@ -179,7 +179,8 @@ def export_contacts(request, start_date, end_date):
 
    
 def landing(request):
-   return render(request, 'landing.html')
+   return redirect('/login')
+   # return render(request, 'landing.html')
 
 def signup(request):
    if request.method == "POST":

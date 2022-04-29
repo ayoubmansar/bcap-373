@@ -12,31 +12,31 @@
                 <div class="tools"></div>        
                 <table class="profile-table">
                     <tr>
-                        <td> First Name: </td>
+                        <td> <b>First Name:</b> </td>
                         <td>{{ user.first_name }}</td>
                     </tr>
                     <tr>
-                        <td> Last Name: </td>
+                        <td> <b>Last Name:</b> </td>
                         <td>{{ user.last_name }}</td>
                     </tr>
                     <tr>
-                        <td> Email: </td>
+                        <td> <b>Email:</b> </td>
                         <td>{{ user.email }}</td>
                     </tr>
                     <tr>
-                        <td> Phone: </td>
+                        <td> <b>Phone:</b> </td>
                         <td>{{ user.profile.phone|phonenumber }}</td>
                     </tr>
                     <tr>
-                        <td> Birth Date: </td>
+                        <td> <b>Birth Date:</b> </td>
                         <td>{{ user.profile.birth_date }}</td>
                     </tr>
                     <tr>
-                        <td> User Role: </td>
+                        <td> <b>User Role:</b> </td>
                         <td>{% if user.is_staff %} BCAP Staff {% else %} Volunteer {% endif %}</td>
                     </tr>
                     <tr>
-                        <td> Date of account creation in system: </td>
+                        <td> <b>Date of account creation in system:</b> </td>
                         <td>{{ user.date_joined }} UTC</td>
                     </tr>
                 </table>

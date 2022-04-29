@@ -7,13 +7,14 @@
       <div class="top-header">
          <div>
                <a href="/view_user/?user={{user.id}}">Back to profile</a>
-               <h4>Updating {{user}}</h4>
+               <h4>Updating <b>{{user}}</b></h4>
                <div class="tools"></div>  
          </div>
       </div>
       <div class="update_user_box">
          <div class="update_user_child1">
-            <h4>Basic properties</h4>
+            <h4 style="display: inline-block;">Basic properties</h4>
+            <p class="tooltip-circle">?<span class="tooltip-text">Please do NOT modify the contents of any boxes that you do NOT wish to change.</span></p>
             <p><b>Username:</b> {{ user.username }}</p>
             <script>
                function validate(form) {
@@ -85,7 +86,7 @@
                      </div>
                      <div class="align-fields">
                         <div class="align-labels">
-                           {{ form.waiver.label_tag }} <br/> (leave empty for no waiver) <br/>
+                           {{ form.waiver.label_tag }} <p class="tooltip-circle">?<span class="tooltip-text">An optional field. Leave blank if no waiver information is on file. Otherwise, put the link to the document here. Only admins can see this field (users cannot see this when viewing their own profiles).</span></p>
                         </div>
                         <div class="align-labels">
                            <input type="text" name="waiver" maxlength="300" id="id_waiver" value="{{user.profile.waiver}}">
@@ -98,7 +99,8 @@
                      <div class="tools"></div>
                      <div class="align-fields">
                         <div class="align-labels">
-                           {{ form.is_staff.label_tag }} <br/>(if you don't wish to change this, leave as -----)<br/>
+                           {{ form.is_staff.label_tag }}
+                           <p class="tooltip-circle">?<span class="tooltip-text">If you wish to keep a user's permissions as they are, keep the ---- option selected.</span></p>
                         </div>
                         <div class="align-labels">
                            {{ form.is_staff }} <br/>
@@ -108,6 +110,7 @@
                         {% endfor %}
                      </div>
                   </p>
+                  <br/>
                   <button class="btn btn-primary px-2 m-3" type="Submit">Save Changes</button>
                </div>
             </form>

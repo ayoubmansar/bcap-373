@@ -7,8 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 SECRET_KEY = 'test'
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-#DEBUG = False
+DEBUG = False # This should always be False in production!
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bcap373-vht.herokuapp.com']
 
 DEFAULT_FROM_EMAIL = 'no-reply@Hack4Impact.com'

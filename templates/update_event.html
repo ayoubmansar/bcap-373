@@ -12,13 +12,14 @@
         </div>
         <form method="POST" id="form" style="width: 0%;"> {% csrf_token %}
             <div class="align-fields-general">
-                <h4>Update event</h4>
+                <h4 class="pad-me">Update event</h4>
                 {% for field in event_form %}
     
                 <p>
                     <div class="align-labels">
                         {% if field.field.required %}
-                            {{ field.label_tag }} <i>(Required)</i>
+                            {{ field.label_tag }}
+                            <div class="required-circle"><p class="required-circle-inner">Required</p></div>
                         {% else %}
                             {{ field.label_tag }}
                         {% endif %} <br/>

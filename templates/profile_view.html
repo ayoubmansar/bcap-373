@@ -13,45 +13,45 @@
                     <br/>
                     <br/>
                 {% endif %}
-                <h4>Profile of <b>{{ view_user }}</b> (User ID {{ view_user.id}})</h4>
+                <h4>Profile of <b>{{ view_user }}</b></h4>
                 {% include 'messages.html' %}
                 <div class="tools"></div>        
                 <table class="profile-table">
                     <tr>
-                        <td> First Name: </td>
+                        <td> <b>First Name:</b> </td>
                         <td>{{ view_user.first_name }}</td>
                     </tr>
                     <tr>
-                        <td> Last Name: </td>
+                        <td> <b>Last Name:</b> </td>
                         <td>{{ view_user.last_name }}</td>
                     </tr>
                     <tr>
-                        <td> Username: </td>
-                        <td>{{ view_user.username }} </td>
+                        <td> <b>Username:</b> </td>
+                        <td>{{ view_user.username }} <i>(User ID: {{ view_user.id }})</i></td>
                     </tr>
                     <tr>
-                        <td> Email: </td>
+                        <td> <b>Email:</b> </td>
                         <td>{{ view_user.email }}</td>
                     </tr>
                     <tr>
-                        <td> Phone: </td>
+                        <td> <b>Phone:</b> </td>
                         <td>{{ view_user.profile.phone|phonenumber }}</td>
                     </tr>
                     <tr>
-                        <td> Birth Date: </td>
+                        <td> <b>Birth Date:</b> </td>
                         <td>{{ view_user.profile.birth_date }}</td>
                     </tr>
                     <tr>
-                        <td> User Role: </td>
+                        <td> <b>User Role:</b> </td>
                         <td>{% if view_user.is_staff %} BCAP Staff {% else %} Volunteer {% endif %}</td>
                     </tr>
                     <tr>
-                        <td> Date of account creation in system: </td>
+                        <td> <b>Date of account creation in system:</b> </td>
                         <td>{{ view_user.date_joined }} UTC</td>
                     </tr>
                     <tr>
-                        <td> Waiver in system? </td>
-                        <td {% if view_user.profile.waiver %} style="color:#4fab16" {% endif %}>{% if view_user.profile.waiver %} {{ view_user.profile.waiver }} {% else %} No {% endif %}</td>
+                        <td> <b>Waiver in system?</b> </td>
+                        <td {% if view_user.profile.waiver %} style="color:#44a906" {% endif %}>{% if view_user.profile.waiver %} {{ view_user.profile.waiver }} {% else %} No {% endif %}</td>
                     </tr>
                 </table>
                 <br/>

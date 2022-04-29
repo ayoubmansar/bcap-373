@@ -1,46 +1,67 @@
 {% load static %}
-{% block pageHeader %} 
-    <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/login.css' %}">
+<!-- {% block pageHeader %}  -->
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/login.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-{% endblock pageHeader%}
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css"> -->
+<!-- {% endblock pageHeader%} -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BCAP - Login</title>
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'bcap373_app/css/login.css' %}">
+</head>
 
 {% block pageContent %}
-<div class="small-frame">
-    <img alt="logo" class="logo" src = "{% static 'bcap373_app/img/bcap373_logo.png' %}">
-    <form method="post">
-        {% csrf_token %}
-        <div style="color: red; margin-botom: 10px;">
-        </div>
-
-        <input class="login-field" placeholder="Username"
-            style="border-style: solid; border-width: 1px; border-color: #D9D9D9; margin-bottom: 30px;"
-            autofocus="autofocus" autocomplete="username" name="username" id="id_username" />
-
-        <input class="login-field" placeholder="Password"
-            style="border-style: solid; border-width: 1px; border-color: #D9D9D9;" autocomplete="current-password"
-            type="password" name="password" id="id_password" />
-
-        <div class = "secondary-options">
-        </div>
-
-        <div class = "login-results">
-            {% if form.non_field_errors %}
-                <div class="non-field-errors">
-                    {% for err in form.non_field_errors %}
-                    <p class="form-error">{{ err }}</p>
-                    {% endfor %}
+<main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+    <div class="container">
+      <div class="card login-card">
+        <div class="row no-gutters">
+          <div class="col-md-5">
+            <img src="{% static 'bcap373_app/img/volunteer.jpg' %}" alt="login" class="login-card-img">
+          </div>
+          <div class="col-md-7">
+            <div class="card-body">
+              <div class="brand-wrapper">
+                <img src="{% static 'bcap373_app/img/bcap_logo.svg' %}" alt="logo" class="logo">
+              </div>
+              <p class="login-card-description">Sign into your account</p>
+              
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_username" class="sr-only">Username</label>
+                    <input class="form-control" placeholder="Username" autofocus="autofocus" autocomplete="username" name="username" id="id_username" required>
                 </div>
-                <br/>
-            {% endif %}
-
-            <button type="submit" style="background-color: #1890FF" class="btn btn-primary btn-lg btn-block">Submit</button>
-
-            <br/>
-            <div style="display:flex;">
-                <p>or&nbsp</p>
-                <a href="/signup">register now!</a><br />
+                <div class="form-group mb-4">
+                    <label for="password" class="sr-only">Password</label>
+                    <input class="form-control" placeholder="Password" autocomplete="current-password" type="password" name="password" id="id_password" required>
+                </div>
+                {% if form.non_field_errors %}
+                    <div class="non-field-errors">
+                        {% for err in form.non_field_errors %}
+                        <p class="form-error">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+                    <br/>
+                {% endif %}
+                <button type="submit" style="background-color: #1890FF" class="btn btn-block login-btn mb-4">Submit</button>
+            </form>
+            <p class="login-card-footer-text">Don't have an account? <a href="/signup" class="text-reset1">Register here</a></p>
+                 
             </div>
+          </div>
         </div>
-    </form>
-</div>
+      </div>
+
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 {% endblock %}
