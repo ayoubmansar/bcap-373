@@ -209,7 +209,7 @@ def signup(request):
                html_message = render_to_string('email_template.html', {'name': (user.get_full_name()).title(), 'timestamp': timestamp}) 
                plain_message = strip_tags(html_message)
                from_email = settings.DEFAULT_FROM_EMAIL
-               to = 'amansar@andrew.cmu.edu'
+               to = settings.EMAIL_SEND_TO
                mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
             except:
                print('Failed to send email')

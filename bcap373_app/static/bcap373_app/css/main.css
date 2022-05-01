@@ -301,6 +301,7 @@ dl {
 .data-item dd {
     margin: 0;
     margin-bottom: 0.25em;
+    overflow: auto;
 }
 
 dt {
@@ -321,8 +322,15 @@ dt {
 
     .data-item dl {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
         column-gap: 1vw;
+    }
+
+    .data-grid-5 {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); /* 5 cols */
+    }
+
+    .data-grid-6 {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); /* 6 cols */
     }
 
     li.data-item {

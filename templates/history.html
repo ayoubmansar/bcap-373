@@ -70,7 +70,7 @@
         <div>
             <ul class="data-frame">
                 <li class="data-item frame-header">
-                    <dl>
+                    <dl class="data-grid-6">
                         {% if user.is_staff %}
                             <dt class = "rowheader">Volunteer</dt>
                         {% endif %}
@@ -83,7 +83,7 @@
                 </li>
                 {% for r in page_obj %}
                     <li class="data-item">
-                        <dl>
+                        <dl class="data-grid-6">
                             {% if user.is_staff %}
                                 <td><a href="/view_user/?user={{r.owner.id}}">{{ r.owner }}</a></td>
                             {% endif %}

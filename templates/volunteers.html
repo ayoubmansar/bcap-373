@@ -67,7 +67,7 @@
         <div>
             <ul class="data-frame">
                 <li class="data-item frame-header">
-                    <dl>
+                    <dl class="data-grid-5">
                         <dt class = "rowheader">Name</dt>
                         <dd class = "rowheader">Total Hours</dd>
                         <dd class = "rowheader">Email</dd>
@@ -77,7 +77,7 @@
                 </li>
                 {% for r in page_obj %}
                     <li class="data-item">
-                        <dl>
+                        <dl class="data-grid-5">
                             <td><a href="/view_user/?user={{r.id}}">{{ r }}</a></td>
                             <dd class="hours">{{ r.get_hours }}</dd>
                             <dd class="email">{% if r.email %} {{ r.email }} {% else %} N/A {% endif %}</dd>
